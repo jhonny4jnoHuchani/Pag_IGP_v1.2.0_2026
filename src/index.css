@@ -266,3 +266,18 @@ section {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-light);
 }
+
+/* ============ CURSOR PERSONALIZADO ============ */
+* {
+  cursor: url('/Decoradores gas_petroqumica/cursor/cursor-mouse(reducido).png') 0 0, auto !important;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea,
+summary {
+  cursor: url('/Decoradores gas_petroqumica/cursor/cursor-mouse(reducido).png') 0 0, pointer !important;
+}
