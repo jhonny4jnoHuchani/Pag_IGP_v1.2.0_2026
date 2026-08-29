@@ -32,7 +32,7 @@ import { useCarreraData, type Publicacion, type Autoridad, type Video } from './
 import { useThemeColors } from './hooks/useThemeColors';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import LoadingScreen from './components/LoadingScreen';
 
 
 
@@ -81,7 +81,10 @@ function App() {
   const { institucion, recursos, contenido, loading, error } = useCarreraData();
   const colors = useThemeColors(institucion);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
+const [currentSlide, setCurrentSlide] = useState(0);
+const [showLoading, setShowLoading] = useState(true);
+const [contentReady, setContentReady] = useState(false); // NUEVO
+
     // Efecto de chispas al hacer click
 useEffect(() => {
   const colors = ['#FFD700', '#FFA500', '#FF8C00', '#FF6347', '#FF4500', '#fff', '#FFD700', '#FFA500'];
@@ -336,7 +339,20 @@ const createAsh = (x: number, y: number, stainSize: number) => {
     if (sparkInterval) clearInterval(sparkInterval);
   };
 }, []);
+
+  // Marcar contenido como listo cuando los datos estén cargados
+  useEffect(() => {
+    if (!loading && !error && contenido && recursos) {
+      const readyTimer = setTimeout(() => {
+        setContentReady(true);
+      }, 300);
+      
+      return () => clearTimeout(readyTimer);
+    }
+  }, [loading, error, contenido, recursos]);
+
   // Autoplay del hero (portada)
+
   useEffect(() => {
     if (!contenido?.portada || contenido.portada.length <= 1) return;
 
@@ -361,15 +377,17 @@ const createAsh = (x: number, y: number, stainSize: number) => {
   const videos: Video[] = contenido?.upea_videos ?? [];
   const autoridades: Autoridad[] = contenido?.autoridad ?? [];
 
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
-        <div style={{ width: '50px', height: '50px', border: '4px solid #f3f4f6', borderTop: `4px solid ${colors.primary}`, borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-        <p style={{ marginLeft: '1rem', color: '#666' }}>Cargando...</p>
-        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <LoadingScreen
+      institucion={institucion}
+      text="Cargando"
+      duration={2000} // Tiempo mínimo de visualización
+      targetPageReady={contentReady}
+      onFinish={() => setShowLoading(false)}
+    />
+  );
+}
 
   if (error) {
     return (
@@ -385,16 +403,28 @@ const createAsh = (x: number, y: number, stainSize: number) => {
     );
   }
 
+
+
+
   const whatsappNumber =
     institucion?.institucion_celular1 && institucion.institucion_celular1 !== 2147483647
       ? institucion.institucion_celular1
       : null;
 
   return (
-    <div>
-      <Header data={institucion} />
+    <div style={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Contenido principal siempre renderizado */}
+      <div style={{ 
+        opacity: showLoading ? 0 : 1,
+        transition: 'opacity 0.3s ease-in-out',
+        pointerEvents: showLoading ? 'none' : 'auto'
+      }}>
+        <Header data={institucion} />
 
       {/* ==================== HERO SECTION ==================== */}
+
+
+
       <section
         id="inicio"
         style={{
@@ -1397,8 +1427,22 @@ left: '15%',
           </FadeIn>
         </div>
       </section>
+        <Footer data={institucion} />
+      </div>
 
-      <Footer data={institucion} />
+      {/* Loading Screen como overlay */}
+      {showLoading && (
+        <LoadingScreen
+          institucion={institucion}
+          text="Cargando"
+          duration={2000}
+          targetPageReady={contentReady}
+          onFinish={() => setShowLoading(false)}
+          gearPosition={{ bottom: '1%', right: '10%' }}
+          tubeSize={200}
+          gearSize={60}
+        />
+      )}
     </div>
   );
 }
