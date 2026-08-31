@@ -267,9 +267,11 @@ section {
   background: var(--primary-light);
 }
 
+
+
 /* ============ CURSOR PERSONALIZADO ============ */
 * {
-  cursor: url('/Decoradores gas_petroqumica/cursor/cursor-mouse(reducido).png') 0 0, auto !important;
+  cursor: url('/Decoradores_gas_petroqumica/cursor/cursor-mouse-reducido.png') 0 0, auto !important;
 }
 
 a,
@@ -279,5 +281,5 @@ input,
 select,
 textarea,
 summary {
-  cursor: url('/Decoradores gas_petroqumica/cursor/cursor-mouse(reducido).png') 0 0, pointer !important;
+  cursor: url('/Decoradores_gas_petroqumica/cursor/cursor-mouse-reducido.png') 0 0, pointer !important;
 }

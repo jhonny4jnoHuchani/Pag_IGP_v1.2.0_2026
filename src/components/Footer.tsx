@@ -112,75 +112,30 @@ export default function Footer({ data }: FooterProps) {
         ></div>
 
         {/* Barra superior CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+                <div
           style={{
-            background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
-            padding: '2rem 0',
             position: 'relative',
+            height: 'clamp(180px, 25vw, 280px)',
             overflow: 'hidden',
             zIndex: 1,
           }}
         >
+          {/* Imagen de fondo con efecto parallax (ventana) */}
           <div
-            className="footer-top-content"
             style={{
-              maxWidth: '1200px',
-              margin: '0 auto',
-              padding: '0 2rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '2rem',
-              flexWrap: 'wrap',
-              position: 'relative',
-              zIndex: 1,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: `url('/Decoradores_gas_petroqumica/Fondo_presentacion..jpg')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+              pointerEvents: 'none',
             }}
-          >
-            <div>
-              <h3
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 700,
-                  margin: '0 0 0.5rem',
-                  color: tertiaryColor,
-                  textShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                }}
-              >
-                ¿Listo para ser parte de {data.institucion_nombre}?
-              </h3>
-              <p style={{ margin: 0, opacity: 0.95, fontSize: '1rem', color: 'rgba(255,255,255,0.95)' }}>
-                Únete a nosotros y forma parte del futuro de la ingeniería
-              </p>
-            </div>
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="#contacto"
-              className="footer-cta-btn"
-              style={{
-                padding: '1rem 2.5rem',
-                background: tertiaryColor,
-                color: primaryColor,
-                textDecoration: 'none',
-                fontWeight: 700,
-                borderRadius: '50px',
-                fontSize: '1rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Contáctanos Ahora <FaArrowRight size={14} />
-            </motion.a>
-          </div>
-        </motion.div>
-
+          ></div>
+        </div>
         {/* Contenido principal del footer */}
         <div
           style={{

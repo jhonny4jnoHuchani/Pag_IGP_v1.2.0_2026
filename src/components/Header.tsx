@@ -433,7 +433,9 @@ const menuItems = [
                   transition={{ duration: 0.3, delay: 0.4 }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="#login"
+                  href="https://servicioadministrador.upea.bo/sign-in"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-login-hover"
                   style={{
                     background: colors.secondary,
@@ -610,7 +612,9 @@ const menuItems = [
 
                 <li style={{ paddingTop: '1rem' }}>
                   <a
-                    href="#login"
+                    href="https://servicioadministrador.upea.bo/sign-in"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={closeMobileMenu}
                     style={{
                       background: colors.secondary,

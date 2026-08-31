@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { InstitucionPrincipal } from '../lib/api';
 
@@ -7,17 +7,15 @@ interface LoadingScreenProps {
   institucion: InstitucionPrincipal | null;
   text?: string;
   onFinish?: () => void;
-  duration?: number; // Duración mínima en milisegundos
-  exitDuration?: number; // Duración de la animación de salida
-  gearPosition?: { // Posición ajustable del engranaje
+  duration?: number;
+  gearPosition?: {
     top?: string | number;
     left?: string | number;
     right?: string | number;
     bottom?: string | number;
   };
-  tubeSize?: number; // Tamaño del tubo de ensayo en desktop (px)
-  gearSize?: number; // Tamaño del engranaje en desktop (px)
-  targetPageReady?: boolean; // Indica si la página destino está lista
+  tubeSize?: number;
+  gearSize?: number;
 }
 
 export default function LoadingScreen({ 
@@ -25,49 +23,32 @@ export default function LoadingScreen({
   text = 'Cargando...', 
   onFinish,
   duration = 3000,
-  exitDuration = 800,
-  gearPosition = { bottom: '1%', right: '10%' },
-  tubeSize = 200,
-  gearSize = 60,
-  targetPageReady = false, // Por defecto false
+  gearPosition = { bottom: '-5%', right: '25%' },
+  tubeSize = 280,
+  gearSize = 80,
 }: LoadingScreenProps) {
   const colors = useThemeColors(institucion);
   const [exit, setExit] = useState(false);
-  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  const clearAllTimeouts = useCallback(() => {
-    timeoutsRef.current.forEach(clearTimeout);
-    timeoutsRef.current = [];
-  }, []);
-
-  // Timer para tiempo mínimo de visualización
   useEffect(() => {
-    const minTimer = setTimeout(() => {
-      setMinTimeElapsed(true);
+    // Timer para la animación de salida
+    const mainTimer = setTimeout(() => {
+      setExit(true);
     }, duration);
     
-    timeoutsRef.current.push(minTimer);
-    return clearAllTimeouts;
-  }, [duration, clearAllTimeouts]);
+    // Timer para llamar onFinish después de la animación
+    const exitTimer = setTimeout(() => {
+      onFinish?.();
+    }, duration + 800); // duration + duración de la animación
+    
+    timeoutsRef.current.push(mainTimer, exitTimer);
 
-  // Efecto para iniciar la salida cuando ambas condiciones se cumplan
-  useEffect(() => {
-    if (minTimeElapsed && targetPageReady && !exit) {
-      setExit(true);
-      
-      const exitTimer = setTimeout(() => {
-        onFinish?.();
-      }, exitDuration);
-      
-      timeoutsRef.current.push(exitTimer);
-    }
-  }, [minTimeElapsed, targetPageReady, exit, exitDuration, onFinish]);
-
-  // Limpiar timeouts al desmontar
-  useEffect(() => {
-    return clearAllTimeouts;
-  }, [clearAllTimeouts]);
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+      timeoutsRef.current = [];
+    };
+  }, [duration, onFinish]);
 
   return (
     <motion.div
@@ -76,7 +57,7 @@ export default function LoadingScreen({
       aria-label={text}
       initial={{ y: 0, opacity: 1 }}
       animate={exit ? { y: '-100%', opacity: 0 } : { y: 0, opacity: 1 }}
-      transition={{ duration: exitDuration / 1000, ease: 'easeInOut' }}
+      transition={{ duration: 0.8, ease: 'easeInOut' }}
       style={{
         minHeight: '100vh',
         display: 'flex',
@@ -126,7 +107,7 @@ export default function LoadingScreen({
         justifyContent: 'center',
         marginBottom: 'clamp(1rem, 3vh, 2rem)',
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '550px',
       }}>
         {/* Tubo de ensayo - responsive */}
         <motion.img
@@ -136,7 +117,7 @@ export default function LoadingScreen({
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           style={{
-            width: `min(${tubeSize}px, 70vw)`,
+            width: `min(${tubeSize}px, 90vw)`,
             height: 'auto',
             pointerEvents: 'none',
             filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.3))',
@@ -153,16 +134,16 @@ export default function LoadingScreen({
             opacity: { duration: 0.4, delay: 0.5 },
             scale: { duration: 0.4, delay: 0.5 },
             rotate: { duration: 3, repeat: Infinity, ease: 'linear' }
-          }}
+          }}          
           style={{
             position: 'absolute',
             bottom: typeof gearPosition.bottom === 'number' 
               ? gearPosition.bottom 
-              : gearPosition.bottom || '1%',
+              : gearPosition.bottom || '-5%',
             right: typeof gearPosition.right === 'number' 
               ? gearPosition.right 
-              : gearPosition.right || '10%',
-            width: `min(${gearSize}px, 20vw)`,
+              : gearPosition.right || '25%',
+            width: `min(${gearSize}px, 25vw)`,
             height: 'auto',
             pointerEvents: 'none',
             filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.4))',
