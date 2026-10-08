@@ -283,3 +283,32 @@ textarea,
 summary {
   cursor: url('/Decoradores_gas_petroqumica/cursor/cursor-mouse-reducido.png') 0 0, pointer !important;
 }
+
+/* ============ FONDO GEOMÉTRICO DINÁMICO PARA PÁGINAS ============ */
+.page-background {
+  position: relative;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.page-background::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  /* Grid de fondo y gradientes geométricos */
+  background-image: 
+    /* Grid geométrico sutil */
+    linear-gradient(to right, var(--primary-light) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--primary-light) 1px, transparent 1px),
+    /* Círculos radiales en esquinas */
+    radial-gradient(circle at 100% 0%, var(--secondary-light) 0%, transparent 45%),
+    radial-gradient(circle at 0% 100%, var(--primary-light) 0%, transparent 45%),
+    /* Triángulo geométrico abstracto opcional usando linear-gradient diagonal */
+    linear-gradient(135deg, transparent 80%, var(--tertiary-light) 80%);
+  
+  background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: center center;
+  opacity: 0.35; /* Efecto sutil pero muy profesional */
+  pointer-events: none; /* Para no interferir con clicks */
+}

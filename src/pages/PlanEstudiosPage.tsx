@@ -34,7 +34,7 @@ export default function PlanEstudiosPage() {
         colors={colors} portadas={contenido?.portada} logo={institucion?.institucion_logo}
       />
 
-      <section style={{ padding: "4rem 0", background: "#f8fafc", minHeight: "600px" , position: 'relative', overflow: 'hidden'}}
+      <section className="page-background" style={{ padding: "4rem 0", minHeight: "600px" , position: 'relative', overflow: 'hidden'}}
       >
 
         {/* DECORADORES EXTERNOS ANIMADOS */}

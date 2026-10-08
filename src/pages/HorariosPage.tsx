@@ -62,9 +62,8 @@ export default function HorariosPage() {
         logo={institucion?.institucion_logo}
       />
 
-      <section style={{
+      <section className="page-background" style={{
           padding: "3rem 1.5rem",
-          background: "#f8fafc",
           minHeight: "600px",
           position: 'relative', overflow: 'hidden'}}
       >

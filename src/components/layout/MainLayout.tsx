@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+﻿import { ReactNode } from 'react';
 import { useCarreraData } from '../../lib/api';
 import { useThemeColors } from '../../hooks/useThemeColors';
 import Header from '../Header';
@@ -20,7 +20,7 @@ export default function MainLayout({ children, loadingData = false }: MainLayout
 
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',  }}>
         <p style={{ color: '#dc2626', fontWeight: 600 }}>Error: {error}</p>
       </div>
     );
@@ -53,3 +53,4 @@ export default function MainLayout({ children, loadingData = false }: MainLayout
     </div>
   );
 }
+

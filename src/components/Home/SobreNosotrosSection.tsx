@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { FaIndustry, FaCogs } from 'react-icons/fa';
 import FadeIn from './FadeIn';
 import type { InstitucionPrincipal } from '../../lib/api';
@@ -60,7 +60,7 @@ interface SobreNosotrosSectionProps {
 /**
  * -------------------------------------------------------------------
  * Componente SobreNosotrosSection
- * Renderiza la sección de historia y descripción de la institución (Sobre Nosotros).
+ * Renderiza la secciÃ³n de historia y descripciÃ³n de la instituciÃ³n (Sobre Nosotros).
  * -------------------------------------------------------------------
  */
 const SobreNosotrosSection = ({ institucion, colors }: SobreNosotrosSectionProps) => {
@@ -74,7 +74,7 @@ const SobreNosotrosSection = ({ institucion, colors }: SobreNosotrosSectionProps
         overflow: 'hidden',
       }}
     >
-      {/* Fondo complejo petrolero al pie de la sección */}
+      {/* Fondo complejo petrolero al pie de la secciÃ³n */}
       <div style={{
         position: 'absolute', bottom: '-13px', left: 0, right: 0, height: 'clamp(150px, 25vw, 300px)',
         background: `url('/Decoradores_gas_petroqumica/fondo_complejo_petrolero.png')`,
@@ -126,11 +126,11 @@ const SobreNosotrosSection = ({ institucion, colors }: SobreNosotrosSectionProps
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '60px', height: '60px', borderRadius: '50%', background: `${colors.secondary}15`, pointerEvents: 'none' }}></div>
                 <div style={{ position: 'absolute', bottom: '-15px', left: '-15px', width: '40px', height: '40px', borderRadius: '50%', background: `${colors.primary}10`, pointerEvents: 'none' }}></div>
 
-                <PuzzleText text={institucion?.institucion_historia || 'La Carrera de Ingeniería de Gas y Petroquímica de la Universidad Pública de El Alto (UPEA) ha sido un pilar en la formación de profesionales competentes para el desarrollo del país.'} />
+                <PuzzleText text={institucion?.institucion_historia || 'La Carrera de IngenierÃ­a de Gas y PetroquÃ­mica de la Universidad PÃºblica de El Alto (UPEA) ha sido un pilar en la formaciÃ³n de profesionales competentes para el desarrollo del paÃ­s.'} />
               </motion.div>
 
               <motion.a href="#contacto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ display: 'inline-block', padding: '1rem 2.5rem', background: colors.primary, color: '#fff', textDecoration: 'none', borderRadius: '50px', fontWeight: 700, fontSize: '1rem', boxShadow: `0 8px 25px ${colors.primary}40`, transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}>
-                Contáctanos →
+                ContÃ¡ctanos â†’
               </motion.a>
             </div>
           </FadeIn>
@@ -141,3 +141,4 @@ const SobreNosotrosSection = ({ institucion, colors }: SobreNosotrosSectionProps
 };
 
 export default SobreNosotrosSection;
+

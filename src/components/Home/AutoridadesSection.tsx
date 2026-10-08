@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
 import { FaUserTie } from 'react-icons/fa';
 import { FaFacebookF, FaWhatsapp } from 'react-icons/fa6';
 import FadeIn from './FadeIn';
@@ -20,7 +20,7 @@ interface AutoridadesSectionProps {
 /**
  * -------------------------------------------------------------------
  * Componente AutoridadesSection
- * Renderiza la sección de autoridades de la carrera.
+ * Renderiza la secciÃ³n de autoridades de la carrera.
  * -------------------------------------------------------------------
  */
 const AutoridadesSection = ({ autoridades = [], colors }: AutoridadesSectionProps) => {
@@ -37,7 +37,7 @@ const AutoridadesSection = ({ autoridades = [], colors }: AutoridadesSectionProp
       <div style={{ position: 'absolute', top: '-120px', left: '-120px', width: 'clamp(200px, 30vw, 340px)', height: 'clamp(200px, 30vw, 340px)', borderRadius: '50%', background: `${colors.primary}18`, filter: 'blur(10px)', zIndex: 0 }}></div>
       <div style={{ position: 'absolute', bottom: '-140px', right: '-100px', width: 'clamp(220px, 32vw, 380px)', height: 'clamp(220px, 32vw, 380px)', borderRadius: '50%', background: `${colors.secondary}18`, filter: 'blur(10px)', zIndex: 0 }}></div>
 
-      {/* DECORADORES ESTÁTICOS ANIMADOS */}
+      {/* DECORADORES ESTÃTICOS ANIMADOS */}
       <style>{`
         .decorador-autoridad { position: absolute; pointer-events: none; z-index: 1; }
         @media (max-width: 768px) { .decorador-autoridad { opacity: 0.25 !important; } .decorador-hide-mobile { display: none; } }
@@ -73,7 +73,7 @@ const AutoridadesSection = ({ autoridades = [], colors }: AutoridadesSectionProp
             </h2>
             <div style={{ width: '80px', height: '4px', background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`, margin: '0 auto', borderRadius: '2px' }}></div>
             <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', color: '#475569', maxWidth: '600px', margin: '1.5rem auto 0', padding: '0 1rem' }}>
-              Conoce a las autoridades que lideran nuestra institución
+              Conoce a las autoridades que lideran nuestra instituciÃ³n
             </p>
           </div>
         </FadeIn>
@@ -159,3 +159,4 @@ const AutoridadesSection = ({ autoridades = [], colors }: AutoridadesSectionProp
 };
 
 export default AutoridadesSection;
+
