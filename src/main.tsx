@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import HistoriaPage from './pages/HistoriaPage';
-import MisionVisionPage from './pages/MisionPage';
 import PerfilProfesionalPage from './pages/PerfilProfesionalPage';
 import AutoridadesPage from './pages/AutoridadesPage';
 import AvisosPage from './pages/AvisosPage';

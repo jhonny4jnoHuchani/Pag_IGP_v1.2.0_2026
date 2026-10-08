@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { motion } from 'framer-motion';
 import { useCarreraData } from '../../lib/api';
 import { useThemeColors } from '../../hooks/useThemeColors';
 import Header from '../Header';

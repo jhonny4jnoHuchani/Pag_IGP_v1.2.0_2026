@@ -6,10 +6,10 @@ import MainLayout from "../components/layout/MainLayout";
 import HeroBanner from "../components/layout/HeroBanner";
 import MasonryGrid from "../components/grids/MasonryGrid";
 import ImageCard from "../components/cards/ImageCard";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaCalendarAlt } from "react-icons/fa";
 
-export default function AvisosPage() {
-  const { institucion, recursos, loading , contenido} = useCarreraData();
+export default function HorariosPage() {
+  const { institucion, recursos, loading, contenido } = useCarreraData();
   const colors = useThemeColors(institucion);
   const [filtroActivo, setFiltroActivo] = useState("TODOS");
   const [imagenModal, setImagenModal] = useState<string | null>(null);
@@ -28,19 +28,15 @@ export default function AvisosPage() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const todosLosAvisos = useMemo(() => {
-    return (recursos?.upea_publicaciones || [])
+  // Actualmente, como mencionaste, los Horarios podrían venir de "upea_publicaciones", "ofertasAcademicas" o "convocatorias".
+  // Por el momento, usamos upea_publicaciones con tipo HORARIO como un posible origen, hasta que se defina con precisión.
+  const horariosItems = useMemo(() => {
+    const list = recursos?.upea_publicaciones || [];
+    return list
       .filter((pub) => {
         const titulo = pub.publicaciones_titulo?.toUpperCase() || "";
         const tipo = pub.publicaciones_tipo?.toUpperCase() || "";
-        return (
-          titulo.includes("AVISO") ||
-          titulo.includes("COMUNICADO") ||
-          tipo.includes("AVISO") ||
-          tipo.includes("COMUNICADO") ||
-          tipo.includes("GACETA") ||
-          titulo.includes("GACETA")
-        );
+        return titulo.includes("HORARIO") || tipo.includes("HORARIO");
       })
       .map((pub) => ({
         id: pub.publicaciones_id,
@@ -48,40 +44,36 @@ export default function AvisosPage() {
         descripcion: pub.publicaciones_descripcion,
         fecha: pub.publicaciones_fecha,
         imagen: pub.publicaciones_imagen,
-        tipo: pub.publicaciones_tipo || "AVISO",
+        tipo: pub.publicaciones_tipo || "HORARIO",
         autor: pub.publicaciones_autor,
         enlace: pub.publicaciones_documento || "#",
       }))
-      .sort(
-        (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime(),
-      );
+      .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
   }, [recursos]);
 
   const categorias = useMemo(() => {
     return [
       "TODOS",
-      ...Array.from(new Set(todosLosAvisos.map((a) => a.tipo || "AVISO"))),
+      ...Array.from(new Set(horariosItems.map((a) => a.tipo || "HORARIO"))),
     ];
-  }, [todosLosAvisos]);
+  }, [horariosItems]);
 
-  const avisosFiltrados = useMemo(() => {
+  const itemsFiltrados = useMemo(() => {
     return filtroActivo === "TODOS"
-      ? todosLosAvisos
-      : todosLosAvisos.filter(
-          (a) =>
-            (a.tipo?.toUpperCase() || "") === filtroActivo.toUpperCase() ||
-            (a.titulo?.toUpperCase() || "").includes(
-              filtroActivo.toUpperCase(),
-            ),
+      ? horariosItems
+      : horariosItems.filter(
+          (a) => (a.tipo?.toUpperCase() || "") === filtroActivo.toUpperCase()
         );
-  }, [filtroActivo, todosLosAvisos]);
+  }, [filtroActivo, horariosItems]);
 
   return (
     <MainLayout loadingData={loading}>
       <HeroBanner
-        title="Avisos y Comunicados"
-        description="Información de interés general para la comunidad académica."
-        colors={colors} portadas={contenido?.portada} logo={institucion?.institucion_logo}
+        title="Horarios Académicos"
+        description="Consulta los horarios de clases para cada semestre de la carrera."
+        colors={colors} 
+        portadas={contenido?.portada} 
+        logo={institucion?.institucion_logo}
       />
 
       <section style={{
@@ -118,61 +110,73 @@ export default function AvisosPage() {
         />
 
         <div style={{ maxWidth: '1200px', position: 'relative', zIndex: 2, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "flex",
-              gap: "0.75rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              marginBottom: "3rem",
-            }}
-          >
-            {categorias.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFiltroActivo(cat)}
+          {horariosItems.length > 0 ? (
+            <>
+              <div
                 style={{
-                  padding: "0.6rem 1.5rem",
-                  borderRadius: "50px",
-                  border: "none",
-                  background: filtroActivo === cat ? colors.primary : "#e2e8f0",
-                  color: filtroActivo === cat ? "#fff" : "#475569",
-                  cursor: "pointer",
-                  textTransform: "uppercase",
-                  fontSize: "0.85rem",
-                  fontWeight: "bold",
+                  display: "flex",
+                  gap: "0.75rem",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginBottom: "3rem",
                 }}
               >
-                {cat}
-              </button>
-            ))}
-          </div>
+                {categorias.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setFiltroActivo(cat)}
+                    style={{
+                      padding: "0.6rem 1.5rem",
+                      borderRadius: "50px",
+                      border: "none",
+                      background: filtroActivo === cat ? colors.primary : "#e2e8f0",
+                      color: filtroActivo === cat ? "#fff" : "#475569",
+                      cursor: "pointer",
+                      textTransform: "uppercase",
+                      fontSize: "0.85rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
 
-          <MasonryGrid
-            isEmpty={avisosFiltrados.length === 0}
-            emptyMessage="No hay avisos disponibles en esta categoría."
-            colors={colors}
-          >
-            {avisosFiltrados.map((aviso, idx) => (
-              <ImageCard
-                key={aviso.id}
-                title={aviso.titulo}
-                description={aviso.descripcion}
-                imageUrl={aviso.imagen ? getImageUrl(aviso.imagen) : null}
-                dateStr={aviso.fecha}
-                tag={aviso.tipo}
+              <MasonryGrid
+                isEmpty={itemsFiltrados.length === 0}
+                emptyMessage="No hay horarios disponibles en esta categoría."
                 colors={colors}
-                author={aviso.autor}
-                linkUrl={aviso.enlace !== "#" ? aviso.enlace : undefined}
-                index={idx}
-                onImageClick={
-                  aviso.imagen
-                    ? () => setImagenModal(getImageUrl(aviso.imagen))
-                    : undefined
-                }
-              />
-            ))}
-          </MasonryGrid>
+              >
+                {itemsFiltrados.map((aviso, idx) => (
+                  <ImageCard
+                    key={aviso.id}
+                    title={aviso.titulo}
+                    description={aviso.descripcion}
+                    imageUrl={aviso.imagen ? getImageUrl(aviso.imagen) : null}
+                    dateStr={aviso.fecha}
+                    tag={aviso.tipo}
+                    colors={colors}
+                    author={aviso.autor}
+                    linkUrl={aviso.enlace !== "#" ? aviso.enlace : undefined}
+                    index={idx}
+                    onImageClick={
+                      aviso.imagen
+                        ? () => setImagenModal(getImageUrl(aviso.imagen))
+                        : undefined
+                    }
+                  />
+                ))}
+              </MasonryGrid>
+            </>
+          ) : (
+            <div style={{ textAlign: "center", padding: "4rem 2rem" }}>
+              <FaCalendarAlt size={64} style={{ color: "#cbd5e1", marginBottom: "1rem" }} />
+              <h3 style={{ color: "#475569", fontSize: "1.5rem" }}>Horarios en Actualización</h3>
+              <p style={{ color: "#94a3b8", marginTop: "1rem" }}>
+                Los horarios académicos están siendo actualizados. Por favor, vuelve a revisar más tarde.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

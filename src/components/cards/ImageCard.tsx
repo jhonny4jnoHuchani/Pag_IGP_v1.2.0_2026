@@ -6,7 +6,6 @@ import {
   FaUserEdit,
   FaDownload,
   FaEye,
-  FaCalendarAlt,
 } from "react-icons/fa";
 
 interface ImageCardProps {

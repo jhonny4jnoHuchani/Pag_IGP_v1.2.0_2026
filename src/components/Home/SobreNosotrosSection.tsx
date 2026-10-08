@@ -1,11 +1,51 @@
 import { motion } from 'framer-motion';
-import { TypeAnimation } from 'react-type-animation';
 import { FaIndustry, FaCogs } from 'react-icons/fa';
 import FadeIn from './FadeIn';
 import type { InstitucionPrincipal } from '../../lib/api';
 
 const getImageUrl = (filename: string | null | undefined): string => {
   return filename || '';
+};
+
+const PuzzleText = ({ text }: { text: string }) => {
+  const cleanText = (text || "").replace(/<[^>]*>?/gm, '');
+  const characters = cleanText.split("");
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      style={{ display: "inline-block", textAlign: "justify", fontSize: 'clamp(0.9rem, 2vw, 1.02rem)', color: '#334155', lineHeight: '1.9' }}
+    >
+      {characters.map((char, idx) => {
+        if (char === "\n") {
+          return <br key={idx} />;
+        }
+        if (char === " ") {
+          return <span key={idx} style={{ display: "inline-block", width: "0.25em" }}>&nbsp;</span>;
+        }
+        const randomX = (Math.random() - 0.5) * 1500;
+        const randomY = (Math.random() - 0.5) * 1500;
+        const randomRotate = (Math.random() - 0.5) * 720;
+        const randomDelay = Math.random() * 2.5;
+        return (
+          <motion.span
+            key={idx}
+            variants={{
+              hidden: { opacity: 0, x: randomX, y: randomY, rotate: randomRotate, scale: 0.2 },
+              visible: { 
+                opacity: 1, x: 0, y: 0, rotate: 0, scale: 1, 
+                transition: { duration: 2, delay: randomDelay, type: "spring", bounce: 0.4 } 
+              }
+            }}
+            style={{ display: "inline-block" }}
+          >
+            {char}
+          </motion.span>
+        );
+      })}
+    </motion.div>
+  );
 };
 
 interface SobreNosotrosSectionProps {
@@ -86,18 +126,7 @@ const SobreNosotrosSection = ({ institucion, colors }: SobreNosotrosSectionProps
                 <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '60px', height: '60px', borderRadius: '50%', background: `${colors.secondary}15`, pointerEvents: 'none' }}></div>
                 <div style={{ position: 'absolute', bottom: '-15px', left: '-15px', width: '40px', height: '40px', borderRadius: '50%', background: `${colors.primary}10`, pointerEvents: 'none' }}></div>
 
-                <TypeAnimation
-                  sequence={[
-                    institucion?.institucion_historia || 'La Carrera de Ingeniería de Gas y Petroquímica de la Universidad Pública de El Alto (UPEA) ha sido un pilar en la formación de profesionales competentes para el desarrollo del país.',
-                    1000,
-                  ]}
-                  wrapper="div"
-                  speed={90}
-                  cursor={true}
-                  repeat={0}
-                  className="justify-desktop"
-                  style={{ fontSize: 'clamp(0.9rem, 2vw, 1.02rem)', color: '#334155', lineHeight: '1.9' }}
-                />
+                <PuzzleText text={institucion?.institucion_historia || 'La Carrera de Ingeniería de Gas y Petroquímica de la Universidad Pública de El Alto (UPEA) ha sido un pilar en la formación de profesionales competentes para el desarrollo del país.'} />
               </motion.div>
 
               <motion.a href="#contacto" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ display: 'inline-block', padding: '1rem 2.5rem', background: colors.primary, color: '#fff', textDecoration: 'none', borderRadius: '50px', fontWeight: 700, fontSize: '1rem', boxShadow: `0 8px 25px ${colors.primary}40`, transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}>

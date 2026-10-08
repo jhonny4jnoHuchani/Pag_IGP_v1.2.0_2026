@@ -3,7 +3,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import { useCarreraData, type Publicacion, type Autoridad, type Video } from './lib/api';
+import { useCarreraData, type Publicacion, type Autoridad } from './lib/api';
 import { useThemeColors } from './hooks/useThemeColors';
 import { useInteractiveEffects } from './hooks/useInteractiveEffects';
 
@@ -48,20 +48,92 @@ function App() {
 
   const autoridades: Autoridad[] = contenido?.autoridad ?? [];
 
-  // -------------------------------------------------------------
-  // MANEJADOR DE ERRORES GLOBALES
-  // -------------------------------------------------------------
   if (error) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h2 style={{ color: '#dc2626', marginBottom: '1rem' }}>Error</h2>
-          <p style={{ color: '#555' }}>{error}</p>
+      <div style={{ 
+        minHeight: '100vh', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        background: '#0a0a0a',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Fondo animado y gigante */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.1, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+          <span style={{ fontSize: 'clamp(10rem, 30vw, 40rem)', fontWeight: 900, color: '#dc2626', lineHeight: 0.8, letterSpacing: '-0.05em' }}>
+            503
+          </span>
+        </div>
+
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '10%',
+          width: '300px',
+          height: '300px',
+          background: 'radial-gradient(circle, #dc262640 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          animation: 'pulse 4s infinite'
+        }}></div>
+
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.05)',
+          borderRadius: '30px',
+          padding: 'clamp(2rem, 5vw, 4rem)',
+          textAlign: 'center',
+          maxWidth: '600px',
+          width: '90%',
+          position: 'relative',
+          zIndex: 10,
+          boxShadow: '0 25px 50px rgba(0,0,0,0.5)'
+        }}>
+          <h2 style={{ 
+            color: '#f87171', 
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
+            fontWeight: 800, 
+            marginBottom: '1rem',
+            textTransform: 'uppercase',
+            letterSpacing: '2px'
+          }}>
+            Servidor Inaccesible
+          </h2>
+          <p style={{ 
+            color: '#cbd5e1', 
+            fontSize: '1.2rem', 
+            lineHeight: 1.6, 
+            marginBottom: '2.5rem' 
+          }}>
+            {error}
+          </p>
           <button 
             onClick={() => window.location.reload()} 
-            style={{ padding: '0.75rem 2rem', background: colors.primary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', marginTop: '1rem' }}
+            style={{ 
+              padding: '1rem 3rem', 
+              background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)', 
+              color: 'white', 
+              border: 'none', 
+              borderRadius: '50px', 
+              cursor: 'pointer', 
+              fontWeight: 700, 
+              fontSize: '1.1rem',
+              boxShadow: '0 10px 25px rgba(220, 38, 38, 0.4)',
+              transition: 'all 0.3s ease',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+              e.currentTarget.style.boxShadow = '0 15px 35px rgba(220, 38, 38, 0.6)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0) scale(1)';
+              e.currentTarget.style.boxShadow = '0 10px 25px rgba(220, 38, 38, 0.4)';
+            }}
           >
-            Reintentar
+            Reintentar Conexión
           </button>
         </div>
       </div>

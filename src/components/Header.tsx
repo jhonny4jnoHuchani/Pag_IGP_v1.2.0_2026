@@ -23,7 +23,6 @@ import {
   FaBriefcase,
   FaCalendarAlt,
   FaVideo,
-  FaFlask,
   FaClipboardList,
   FaBookOpen
 } from 'react-icons/fa';
@@ -122,6 +121,7 @@ const menuItems = [
     links: [
       { href: '#malla-curricular', label: 'Malla Curricular', icon: <FaClipboardList /> },
       { href: '#plan-estudios', label: 'Plan de Estudios', icon: <FaFileAlt /> },
+      { href: '#horarios', label: 'Horarios', icon: <FaCalendarAlt /> },
     ]
   },
     {
@@ -129,6 +129,7 @@ const menuItems = [
       label: 'CONVOCATORIAS',
       icon: <FaBullhorn />,
       links: [
+        { href: '#convocatorias', label: 'Convocatorias', icon: <FaBullhorn /> },
         { href: '#avisos', label: 'Avisos', icon: <FaFileAlt /> },
         { href: '#comunicados', label: 'Comunicados', icon: <FaNewspaper /> },
         { href: '#gaceta', label: 'Gaceta', icon: <FaScroll /> },

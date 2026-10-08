@@ -8,8 +8,8 @@ import MasonryGrid from "../components/grids/MasonryGrid";
 import ImageCard from "../components/cards/ImageCard";
 import { FaTimes } from "react-icons/fa";
 
-export default function AvisosPage() {
-  const { institucion, recursos, loading , contenido} = useCarreraData();
+export default function ConvocatoriasPage() {
+  const { institucion, recursos, loading, contenido } = useCarreraData();
   const colors = useThemeColors(institucion);
   const [filtroActivo, setFiltroActivo] = useState("TODOS");
   const [imagenModal, setImagenModal] = useState<string | null>(null);
@@ -17,7 +17,7 @@ export default function AvisosPage() {
   const getImageUrl = (path: string | null | undefined): string => {
     if (!path) return "";
     if (path.startsWith("http")) return path;
-    return `https://archivosminio.upea.bo/archivospaginasnode/imagenes/${path}`;
+    return `https://apiadministrador.upea.bo/storage/imagenes/convocatorias/${path}`;
   };
 
   useEffect(() => {
@@ -28,60 +28,49 @@ export default function AvisosPage() {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
-  const todosLosAvisos = useMemo(() => {
-    return (recursos?.upea_publicaciones || [])
-      .filter((pub) => {
-        const titulo = pub.publicaciones_titulo?.toUpperCase() || "";
-        const tipo = pub.publicaciones_tipo?.toUpperCase() || "";
-        return (
-          titulo.includes("AVISO") ||
-          titulo.includes("COMUNICADO") ||
-          tipo.includes("AVISO") ||
-          tipo.includes("COMUNICADO") ||
-          tipo.includes("GACETA") ||
-          titulo.includes("GACETA")
-        );
+  const convocatoriasItems = useMemo(() => {
+    const list = recursos?.convocatorias || [];
+    return list
+      .filter((item) => {
+        const type = (item.tipo_conv_comun?.tipo_conv_comun_titulo || "").toUpperCase();
+        return type.includes("CONVOCATORIA") || type === "CONVOCATORIAS" || type === ""; 
       })
-      .map((pub) => ({
-        id: pub.publicaciones_id,
-        titulo: pub.publicaciones_titulo,
-        descripcion: pub.publicaciones_descripcion,
-        fecha: pub.publicaciones_fecha,
-        imagen: pub.publicaciones_imagen,
-        tipo: pub.publicaciones_tipo || "AVISO",
-        autor: pub.publicaciones_autor,
-        enlace: pub.publicaciones_documento || "#",
+      .map((item) => ({
+        id: item.idconvocatorias,
+        titulo: item.con_titulo,
+        descripcion: item.con_descripcion,
+        fecha: item.con_fecha_inicio,
+        imagen: item.con_foto_portada,
+        tipo: item.tipo_conv_comun?.tipo_conv_comun_titulo || "CONVOCATORIA",
+        autor: "Institución",
+        enlace: "#",
       }))
-      .sort(
-        (a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime(),
-      );
+      .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
   }, [recursos]);
 
   const categorias = useMemo(() => {
     return [
       "TODOS",
-      ...Array.from(new Set(todosLosAvisos.map((a) => a.tipo || "AVISO"))),
+      ...Array.from(new Set(convocatoriasItems.map((a) => a.tipo || "CONVOCATORIA"))),
     ];
-  }, [todosLosAvisos]);
+  }, [convocatoriasItems]);
 
-  const avisosFiltrados = useMemo(() => {
+  const itemsFiltrados = useMemo(() => {
     return filtroActivo === "TODOS"
-      ? todosLosAvisos
-      : todosLosAvisos.filter(
-          (a) =>
-            (a.tipo?.toUpperCase() || "") === filtroActivo.toUpperCase() ||
-            (a.titulo?.toUpperCase() || "").includes(
-              filtroActivo.toUpperCase(),
-            ),
+      ? convocatoriasItems
+      : convocatoriasItems.filter(
+          (a) => (a.tipo?.toUpperCase() || "") === filtroActivo.toUpperCase()
         );
-  }, [filtroActivo, todosLosAvisos]);
+  }, [filtroActivo, convocatoriasItems]);
 
   return (
     <MainLayout loadingData={loading}>
       <HeroBanner
-        title="Avisos y Comunicados"
-        description="Información de interés general para la comunidad académica."
-        colors={colors} portadas={contenido?.portada} logo={institucion?.institucion_logo}
+        title="Convocatorias"
+        description="Convocatorias abiertas y finalizadas de nuestra institución."
+        colors={colors} 
+        portadas={contenido?.portada} 
+        logo={institucion?.institucion_logo}
       />
 
       <section style={{
@@ -149,11 +138,11 @@ export default function AvisosPage() {
           </div>
 
           <MasonryGrid
-            isEmpty={avisosFiltrados.length === 0}
-            emptyMessage="No hay avisos disponibles en esta categoría."
+            isEmpty={itemsFiltrados.length === 0}
+            emptyMessage="No hay convocatorias disponibles en este momento."
             colors={colors}
           >
-            {avisosFiltrados.map((aviso, idx) => (
+            {itemsFiltrados.map((aviso, idx) => (
               <ImageCard
                 key={aviso.id}
                 title={aviso.titulo}
