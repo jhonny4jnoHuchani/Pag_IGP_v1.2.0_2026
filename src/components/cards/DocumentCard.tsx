@@ -58,21 +58,21 @@ export default function DocumentCard({
           </div>
 
           {!pdfError && documentUrl && documentUrl.endsWith('.pdf') ? (
-            <div style={{ width: '100%', height: '100%', pointerEvents: 'none', position: 'relative' }}>
+            <div style={{ width: '100%', height: '100%', pointerEvents: 'none', position: 'relative', overflow: 'hidden' }}>
               <iframe
-                src={`${documentUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                src={`https://docs.google.com/gview?url=${encodeURIComponent(documentUrl)}&embedded=true`}
                 title={title}
                 style={{
                   width: '100%',
-                  height: '110%', /* 110% para esconder bordes extra del visor */
+                  height: '110%', /* 110% para esconder bordes extra del visor de Google */
                   border: 'none',
-                  pointerEvents: 'none', /* Deshabilita interacciones con el PDF */
-                  userSelect: 'none'
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  transform: 'scale(1.05)'
                 }}
                 sandbox="allow-same-origin allow-scripts"
                 scrolling="no"
               />
-              {/* Capa invisible para atrapar los eventos del mouse y evitar que el usuario toque el PDF */}
               <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'transparent' }} />
             </div>
           ) : (
