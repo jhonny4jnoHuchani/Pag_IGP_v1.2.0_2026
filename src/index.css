@@ -287,7 +287,8 @@ summary {
 /* ============ FONDO GEOMÉTRICO DINÁMICO PARA PÁGINAS ============ */
 .page-background {
   position: relative;
-  background-color: #ffffff;
+  /* Un gradiente base que combina los tres colores en su versión clara */
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--tertiary-light) 50%, var(--secondary-light) 100%);
   overflow: hidden;
 }
 
@@ -296,19 +297,17 @@ summary {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   z-index: 0;
-  /* Grid de fondo y gradientes geométricos */
+  /* Malla geométrica: hexágonos abstractos o polígonos usando gradientes radiales intensos y rejilla */
   background-image: 
-    /* Grid geométrico sutil */
-    linear-gradient(to right, var(--primary-light) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--primary-light) 1px, transparent 1px),
-    /* Círculos radiales en esquinas */
-    radial-gradient(circle at 100% 0%, var(--secondary-light) 0%, transparent 45%),
-    radial-gradient(circle at 0% 100%, var(--primary-light) 0%, transparent 45%),
-    /* Triángulo geométrico abstracto opcional usando linear-gradient diagonal */
-    linear-gradient(135deg, transparent 80%, var(--tertiary-light) 80%);
-  
-  background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%, 100% 100%;
-  background-position: center center;
-  opacity: 0.35; /* Efecto sutil pero muy profesional */
-  pointer-events: none; /* Para no interferir con clicks */
+    /* Líneas diagonales tipo malla (formas geométricas) */
+    repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255, 255, 255, 0.4) 40px, rgba(255, 255, 255, 0.4) 42px),
+    repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255, 255, 255, 0.4) 40px, rgba(255, 255, 255, 0.4) 42px),
+    /* Luces radiales combinando los tres colores (medium opacidad) */
+    radial-gradient(circle at 15% 20%, var(--primary-medium) 0%, transparent 60%),
+    radial-gradient(circle at 85% 80%, var(--secondary-medium) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, var(--tertiary-medium) 0%, transparent 70%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: center;
+  opacity: 0.8; /* Alta opacidad para que el color reviente y no sea blanco */
+  pointer-events: none;
 }
