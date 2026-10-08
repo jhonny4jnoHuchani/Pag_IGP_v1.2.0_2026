@@ -102,17 +102,17 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
         /* Animación de Dibujado SVG */
         .svg-title-anim {
           font-family: "Inter", system-ui, sans-serif;
-          font-size: 140px;
+          font-size: 300px;
           font-weight: 900;
           text-transform: uppercase;
           fill: transparent;
           stroke: #FFD700;
-          stroke-width: 3px;
-          stroke-dasharray: 1500;
-          stroke-dashoffset: 1500;
+          stroke-width: 6px;
+          stroke-dasharray: 3000;
+          stroke-dashoffset: 3000;
           animation: drawText 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-          filter: drop-shadow(0 6px 15px rgba(0,0,0,0.6));
-          letter-spacing: 4px;
+          filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+          letter-spacing: 6px;
         }
 
         @keyframes drawText {
@@ -164,7 +164,7 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
       <img src="/decoradores/decor_mov2.gif" alt="" style={{ position: 'absolute', top: '35%', left: '15%', transform: 'translateX(-50%)', width: 'clamp(120px, 20vw, 250px)', height: 'auto', pointerEvents: 'none', zIndex: 1, opacity: 0.85 }} />
 
       {/* CONTENIDO (Logo y Título) */}
-      <div style={{ textAlign: 'center', color: '#fff', padding: 'clamp(0.5rem, 2vw, 1rem)', maxWidth: 'clamp(320px, 92vw, 1100px)', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ textAlign: 'center', color: '#fff', padding: 'clamp(0.5rem, 2vw, 1rem)', maxWidth: '100vw', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={{ position: 'relative', zIndex: 1, padding: 'clamp(0.5rem, 2vw, 1.5rem)', animation: 'fadeInUp 1s ease-out' }}>
           
           <div
@@ -186,12 +186,12 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
             {tituloCompleto}
           </h1>
 
-          <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto 1.5rem' }}>
-            <svg viewBox="0 0 1500 450" width="100%" height="100%" style={{ overflow: 'visible' }}>
-              <text x="50%" y="38%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
+          <div style={{ width: '100%', maxWidth: '100%', margin: '0 auto 1.5rem', padding: '0 1rem' }}>
+            <svg viewBox="0 0 3200 900" width="100%" height="100%" style={{ overflow: 'visible' }}>
+              <text x="50%" y="35%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
                 {linea1}
               </text>
-              <text x="50%" y="88%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim" style={{ animationDelay: '0.3s' }}>
+              <text x="50%" y="85%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim" style={{ animationDelay: '0.3s' }}>
                 {linea2}
               </text>
             </svg>

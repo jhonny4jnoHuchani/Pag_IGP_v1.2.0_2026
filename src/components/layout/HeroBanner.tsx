@@ -151,11 +151,19 @@ export default function HeroBanner({
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "2rem"
+            gap: "2rem",
           }}
         >
           {/* COLUMNA IZQUIERDA: Textos */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: "1 1 60%", minWidth: "300px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              flex: "1 1 60%",
+              minWidth: "300px",
+            }}
+          >
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -241,7 +249,7 @@ export default function HeroBanner({
                   lineHeight: 1.6,
                   borderLeft: "4px solid var(--primary)",
                   paddingLeft: "1rem",
-                  margin: 0
+                  margin: 0,
                 }}
               >
                 {description}
@@ -254,12 +262,17 @@ export default function HeroBanner({
             <motion.div
               initial={{ opacity: 0, scale: 0.8, x: 50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 1, duration: 1, type: "spring", bounce: 0.4 }}
+              transition={{
+                delay: 1,
+                duration: 1,
+                type: "spring",
+                bounce: 0.4,
+              }}
               style={{
                 flex: "0 0 auto",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <img
@@ -270,7 +283,7 @@ export default function HeroBanner({
                   maxWidth: "300px",
                   maxHeight: "300px",
                   objectFit: "contain",
-                  filter: `drop-shadow(0 20px 40px rgba(0,0,0,0.6)) drop-shadow(0 0 40px var(--primary-medium))`
+                  filter: `drop-shadow(0 20px 40px rgba(0,0,0,0.6)) drop-shadow(0 0 40px var(--primary-medium))`,
                 }}
               />
             </motion.div>
@@ -347,7 +360,7 @@ export default function HeroBanner({
             style={{
               position: "absolute",
               top: "10%",
-              left: "33%",
+              left: "43%",
               transform: "translate(-50%, -50%)",
               width: "450px",
               height: "450px",
@@ -674,8 +687,16 @@ export default function HeroBanner({
             idx === currentSlide ? (
               <motion.div
                 key={p.portada_id}
-                initial={{ clipPath: "circle(0% at 50% 50%)", opacity: 0, filter: "blur(20px)" }}
-                animate={{ clipPath: "circle(150% at 50% 50%)", opacity: 1, filter: "blur(0px)" }}
+                initial={{
+                  clipPath: "circle(0% at 50% 50%)",
+                  opacity: 0,
+                  filter: "blur(20px)",
+                }}
+                animate={{
+                  clipPath: "circle(150% at 50% 50%)",
+                  opacity: 1,
+                  filter: "blur(0px)",
+                }}
                 exit={{ opacity: 0, filter: "blur(20px)" }}
                 transition={{ duration: 1.8, ease: "easeInOut" }}
                 style={{ position: "absolute", inset: 0 }}
@@ -704,7 +725,14 @@ export default function HeroBanner({
       </div>
 
       {/* PORTADAS FLOTANTES (FOTOS ORBITANDO EL CENTRO) */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 10, pointerEvents: "none" }}>
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 10,
+          pointerEvents: "none",
+        }}
+      >
         {portadas.slice(0, 6).map((p, idx) => {
           // Tamaños reducidos a la mitad para no ocupar toda la pantalla
           const positions = [
@@ -716,11 +744,11 @@ export default function HeroBanner({
             { top: "35%", left: "2%", size: 95, delay: 0.8 },
           ];
           const pos = positions[idx % positions.length];
-          
+
           // Movimientos amplios para simular que chocan o se cruzan
           const floatY = [0, -80, 50, -30, 0];
           const floatX = [0, 60, -60, 30, 0];
-          
+
           return (
             <motion.div
               key={`float-${p.portada_id}`}
@@ -787,29 +815,100 @@ export default function HeroBanner({
             overflow: "visible",
           }}
         >
-
-
-                    <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             {/* BATALLA DE COLORES DETRÁS DEL LOGO */}
-            <div style={{ position: "relative", width: "200px", height: "200px", margin: "0 auto 2rem" }}>
+            <div
+              style={{
+                position: "relative",
+                width: "200px",
+                height: "200px",
+                margin: "0 auto 2rem",
+              }}
+            >
               {/* AURORA DE COLORES (BATALLA SUTIL) */}
               <motion.div
-                animate={{ scale: [1, 1.5, 1], x: [0, 20, -15, 0], y: [0, -20, 15, 0], rotate: [0, 90, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", top: "0%", left: "0%", width: "100%", height: "100%", background: "var(--primary)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.6 }}
+                animate={{
+                  scale: [1, 1.5, 1],
+                  x: [0, 20, -15, 0],
+                  y: [0, -20, 15, 0],
+                  rotate: [0, 90, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: "absolute",
+                  top: "0%",
+                  left: "0%",
+                  width: "100%",
+                  height: "100%",
+                  background: "var(--primary)",
+                  filter: "blur(40px)",
+                  borderRadius: "50%",
+                  zIndex: 0,
+                  opacity: 0.6,
+                }}
               />
               <motion.div
-                animate={{ scale: [1.2, 0.8, 1.2], x: [0, -20, 20, 0], y: [0, 20, -15, 0], rotate: [0, -90, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", top: "0%", right: "0%", width: "100%", height: "100%", background: "var(--secondary)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
+                animate={{
+                  scale: [1.2, 0.8, 1.2],
+                  x: [0, -20, 20, 0],
+                  y: [0, 20, -15, 0],
+                  rotate: [0, -90, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: "absolute",
+                  top: "0%",
+                  right: "0%",
+                  width: "100%",
+                  height: "100%",
+                  background: "var(--secondary)",
+                  filter: "blur(40px)",
+                  borderRadius: "50%",
+                  zIndex: 0,
+                  opacity: 0.5,
+                }}
               />
               <motion.div
-                animate={{ scale: [0.8, 1.3, 0.8], x: [0, 15, -20, 0], y: [0, 15, -20, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", bottom: "0%", left: "10%", width: "100%", height: "100%", background: colors.tertiary || "var(--primary-light)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
+                animate={{
+                  scale: [0.8, 1.3, 0.8],
+                  x: [0, 15, -20, 0],
+                  y: [0, 15, -20, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: "absolute",
+                  bottom: "0%",
+                  left: "10%",
+                  width: "100%",
+                  height: "100%",
+                  background: colors.tertiary || "var(--primary-light)",
+                  filter: "blur(40px)",
+                  borderRadius: "50%",
+                  zIndex: 0,
+                  opacity: 0.5,
+                }}
               />
-              
+
               {logo ? (
                 <motion.img
                   src={logo.startsWith("http") ? logo : `${logo}`}
@@ -818,25 +917,47 @@ export default function HeroBanner({
                   animate={{ rotateY: 0, opacity: 1 }}
                   transition={{ duration: 1.5, type: "spring", bounce: 0.5 }}
                   style={{
-                    position: "absolute", inset: 0, margin: "auto",
-                    width: "150px", height: "150px", objectFit: "contain",
+                    position: "absolute",
+                    inset: 0,
+                    margin: "auto",
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "contain",
                     filter: `drop-shadow(0 15px 25px rgba(0,0,0,0.5))`,
-                    zIndex: 1
+                    zIndex: 1,
                   }}
                 />
               ) : (
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+                  transition={{
+                    duration: 25,
+                    ease: "linear",
+                    repeat: Infinity,
+                  }}
                   style={{
-                    position: "absolute", inset: 0, margin: "auto",
-                    width: "90px", height: "90px", borderRadius: "24px",
-                    display: "inline-flex", alignItems: "center", justifyContent: "center",
-                    background: "var(--gradient-primary)", zIndex: 1,
+                    position: "absolute",
+                    inset: 0,
+                    margin: "auto",
+                    width: "90px",
+                    height: "90px",
+                    borderRadius: "24px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "var(--gradient-primary)",
+                    zIndex: 1,
                     boxShadow: "0 15px 30px var(--primary-medium)",
                   }}
                 >
-                  <div style={{ width: "40%", height: "40%", background: "#fff", borderRadius: "50%" }}></div>
+                  <div
+                    style={{
+                      width: "40%",
+                      height: "40%",
+                      background: "#fff",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
                 </motion.div>
               )}
             </div>
@@ -860,7 +981,7 @@ export default function HeroBanner({
             >
               {title}
             </motion.h1>
-            
+
             {description && (
               <motion.p
                 initial={{ y: 20, opacity: 0 }}
@@ -899,12 +1020,18 @@ export default function HeroBanner({
                         ? "var(--secondary)"
                         : "rgba(255,255,255,0.15)",
                   }}
-                  whileHover={{ scale: 1.2, background: "rgba(255,255,255,0.5)" }}
-                  style={{ 
-                    height: "12px", 
-                    borderRadius: "6px", 
+                  whileHover={{
+                    scale: 1.2,
+                    background: "rgba(255,255,255,0.5)",
+                  }}
+                  style={{
+                    height: "12px",
+                    borderRadius: "6px",
                     cursor: "pointer",
-                    boxShadow: idx === currentSlide ? `0 0 15px var(--secondary)` : 'none'
+                    boxShadow:
+                      idx === currentSlide
+                        ? `0 0 15px var(--secondary)`
+                        : "none",
                   }}
                 />
               ))}

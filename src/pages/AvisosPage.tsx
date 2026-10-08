@@ -9,7 +9,7 @@ import ImageCard from "../components/cards/ImageCard";
 import { FaTimes } from "react-icons/fa";
 
 export default function AvisosPage() {
-  const { institucion, recursos, loading , contenido} = useCarreraData();
+  const { institucion, recursos, loading, contenido } = useCarreraData();
   const colors = useThemeColors(institucion);
   const [filtroActivo, setFiltroActivo] = useState("TODOS");
   const [imagenModal, setImagenModal] = useState<string | null>(null);
@@ -26,15 +26,13 @@ export default function AvisosPage() {
     };
     window.addEventListener("keydown", handleEsc);
     return () => window.removeEventListener("keydown", handleEsc);
-  }, []);  const todosLosAvisos = useMemo(() => {
+  }, []);
+  const todosLosAvisos = useMemo(() => {
     const pubs = (recursos?.upea_publicaciones || [])
       .filter((pub) => {
         const titulo = pub.publicaciones_titulo?.toUpperCase() || "";
         const tipo = pub.publicaciones_tipo?.toUpperCase() || "";
-        return (
-          titulo.includes("AVISO") ||
-          tipo.includes("AVISO")
-        );
+        return titulo.includes("AVISO") || tipo.includes("AVISO");
       })
       .map((pub) => ({
         id: `pub-${pub.publicaciones_id}`,
@@ -49,7 +47,9 @@ export default function AvisosPage() {
 
     const convs = (recursos?.convocatorias || [])
       .filter((conv) => {
-        const type = (conv.tipo_conv_comun?.tipo_conv_comun_titulo || "").toUpperCase();
+        const type = (
+          conv.tipo_conv_comun?.tipo_conv_comun_titulo || ""
+        ).toUpperCase();
         return type === "AVISOS" && conv.con_estado === "1";
       })
       .map((conv) => ({
@@ -90,44 +90,86 @@ export default function AvisosPage() {
   return (
     <MainLayout loadingData={loading}>
       <HeroBanner
-        title="Avisos y Comunicados"
+        title="Avisos"
         description="Información de interés general para la comunidad académica."
-        colors={colors} portadas={contenido?.portada} logo={institucion?.institucion_logo}
+        colors={colors}
+        portadas={contenido?.portada}
+        logo={institucion?.institucion_logo}
       />
 
-      <section className="page-background" style={{
+      <section
+        className="page-background"
+        style={{
           padding: "3rem 1.5rem",
           minHeight: "600px",
-          position: 'relative', overflow: 'hidden'}}
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
-
         {/* DECORADORES EXTERNOS ANIMADOS */}
-        <motion.img 
+        <motion.img
           src="/decoradores/decor_static/cometa.png"
           animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          style={{ position: "absolute", top: "10%", left: "5%", width: "120px", zIndex: 1, opacity: 0.6 }}
+          style={{
+            position: "absolute",
+            top: "10%",
+            left: "5%",
+            width: "120px",
+            zIndex: 1,
+            opacity: 0.6,
+          }}
         />
-        <motion.img 
+        <motion.img
           src="/Decoradores_gas_petroqumica/decoradoresestaticos/cuadrado_punteado_rojo.png"
           animate={{ rotate: 360 }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          style={{ position: "absolute", top: "15%", right: "8%", width: "100px", mixBlendMode: "screen", zIndex: 1, opacity: 0.5 }}
+          style={{
+            position: "absolute",
+            top: "15%",
+            right: "8%",
+            width: "100px",
+            mixBlendMode: "screen",
+            zIndex: 1,
+            opacity: 0.5,
+          }}
         />
-        <motion.img 
+        <motion.img
           src="/decoradores/decor_static/3_lineas_siksak.png"
           animate={{ x: [0, 15, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          style={{ position: "absolute", bottom: "20%", left: "5%", width: "80px", zIndex: 1, opacity: 0.6 }}
+          style={{
+            position: "absolute",
+            bottom: "20%",
+            left: "5%",
+            width: "80px",
+            zIndex: 1,
+            opacity: 0.6,
+          }}
         />
-        <motion.img 
+        <motion.img
           src="/Decoradores_gas_petroqumica/decoradoresestaticos/objeto_combinado.png"
           animate={{ y: [0, 20, 0], scale: [0.9, 1.1, 0.9] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          style={{ position: "absolute", bottom: "10%", right: "5%", width: "140px", mixBlendMode: "screen", zIndex: 1, opacity: 0.6 }}
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            right: "5%",
+            width: "140px",
+            mixBlendMode: "screen",
+            zIndex: 1,
+            opacity: 0.6,
+          }}
         />
 
-        <div style={{ maxWidth: '1200px', position: 'relative', zIndex: 2, margin: "0 auto" }}>
+        <div
+          style={{
+            maxWidth: "1200px",
+            position: "relative",
+            zIndex: 2,
+            margin: "0 auto",
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -229,7 +271,9 @@ export default function AvisosPage() {
               style={{
                 width: "100%",
                 height: "100%",
-                maxWidth: '1200px', position: 'relative', zIndex: 2,
+                maxWidth: "1200px",
+                position: "relative",
+                zIndex: 2,
                 maxHeight: "85vh",
                 display: "flex",
                 alignItems: "center",
