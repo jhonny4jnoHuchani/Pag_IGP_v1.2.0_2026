@@ -41,7 +41,7 @@ export default function AvisosPage() {
         );
       })
       .map((pub) => ({
-        id: `pub-${{pub.publicaciones_id}`,
+        id: `pub-${pub.publicaciones_id}`,
         titulo: pub.publicaciones_titulo,
         descripcion: pub.publicaciones_descripcion,
         fecha: pub.publicaciones_fecha,
@@ -57,7 +57,7 @@ export default function AvisosPage() {
         return type === "AVISOS" && conv.con_estado === "1";
       })
       .map((conv) => ({
-        id: `conv-${{conv.idconvocatorias}`,
+        id: `conv-${conv.idconvocatorias}`,
         titulo: conv.con_titulo,
         descripcion: conv.con_descripcion,
         fecha: conv.con_fecha_inicio,
