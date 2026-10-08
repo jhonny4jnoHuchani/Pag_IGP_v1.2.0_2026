@@ -31,7 +31,12 @@ export default function DocumentCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.5, delay: (index % 10) * 0.1 }}
-      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%', cursor: documentUrl ? 'pointer' : 'default' }}
+      onClick={() => {
+        if (documentUrl) {
+          window.open(documentUrl, '_blank');
+        }
+      }}
     >
       <motion.div
         whileHover={{ y: -8 }}
@@ -91,10 +96,10 @@ export default function DocumentCard({
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem'
                 }}
               >
-                <a href={documentUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '50px', height: '50px', borderRadius: '50%', background: '#fff', color: colors?.primary || '#3b82f6', textDecoration: 'none' }} title="Ver Documento">
+                <a href={documentUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '50px', height: '50px', borderRadius: '50%', background: '#fff', color: colors?.primary || '#3b82f6', textDecoration: 'none' }} title="Ver Documento">
                   <FaEye size={20} />
                 </a>
-                <a href={documentUrl} download target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '50px', height: '50px', borderRadius: '50%', background: colors?.secondary || '#10b981', color: '#fff', textDecoration: 'none' }} title="Descargar PDF">
+                <a href={documentUrl} download target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '50px', height: '50px', borderRadius: '50%', background: colors?.secondary || '#10b981', color: '#fff', textDecoration: 'none' }} title="Descargar PDF">
                   <FaDownload size={18} />
                 </a>
               </motion.div>

@@ -25,6 +25,13 @@ export default function PublicacionesPage() {
   const { institucion, recursos, contenido, loading } = useCarreraData();
   const colors = useThemeColors(institucion);
   const [publicacionModal, setPublicacionModal] = useState<any>(null);
+  const [imgLayout, setImgLayout] = useState<'horizontal' | 'vertical' | null>(null);
+
+  useEffect(() => {
+    if (publicacionModal) {
+      setImgLayout(null);
+    }
+  }, [publicacionModal]);
 
   const getImageUrl = (path: string | null | undefined): string => {
     if (!path) return "";
@@ -144,13 +151,14 @@ export default function PublicacionesPage() {
               style={{
                 background: "#fff",
                 borderRadius: "16px",
-                maxWidth: "800px",
+                maxWidth: imgLayout === 'vertical' ? "1200px" : "900px",
                 width: "100%",
-                padding: "2rem",
                 cursor: "default",
                 position: "relative",
-                overflow: "auto",
+                overflow: "hidden",
                 maxHeight: "90vh",
+                display: "flex",
+                flexDirection: imgLayout === 'vertical' ? "row" : "column",
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -166,11 +174,12 @@ export default function PublicacionesPage() {
                   borderRadius: "50%",
                   width: "36px",
                   height: "36px",
-                  zIndex: 10,
+                  zIndex: 20,
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  boxShadow: "0 4px 6px rgba(0,0,0,0.15)"
                 }}
               >
                 <FaTimes />
@@ -179,116 +188,120 @@ export default function PublicacionesPage() {
               {publicacionModal.publicaciones_imagen && (
                 <div
                   style={{
-                    width: "100%",
-                    height: "300px",
-                    marginBottom: "1.5rem",
+                    flex: imgLayout === 'vertical' ? "0 0 50%" : "none",
+                    width: imgLayout === 'vertical' ? "50%" : "100%",
+                    height: imgLayout === 'vertical' ? "100%" : "400px",
+                    background: "#000",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <img
                     src={getImageUrl(publicacionModal.publicaciones_imagen)}
                     alt="Pub"
+                    onLoad={(e) => {
+                      const { naturalWidth, naturalHeight } = e.currentTarget;
+                      if (naturalHeight > naturalWidth) {
+                        setImgLayout('vertical');
+                      } else {
+                        setImgLayout('horizontal');
+                      }
+                    }}
                     style={{
                       width: "100%",
                       height: "100%",
                       objectFit: "contain",
-                      background: "#000",
-                      borderRadius: "12px",
+                      maxHeight: imgLayout === 'vertical' ? "90vh" : "100%"
                     }}
                   />
                 </div>
               )}
 
-              <h2
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: 800,
-                  color: "#1e293b",
-                  marginBottom: "1rem",
-                }}
-              >
-                {publicacionModal.publicaciones_titulo}
-              </h2>
               <div
                 style={{
+                  flex: "1",
+                  padding: "2.5rem",
+                  overflowY: "auto",
                   display: "flex",
-                  gap: "1rem",
-                  flexWrap: "wrap",
-                  marginBottom: "1.5rem",
-                  fontSize: "0.9rem",
-                  color: "#64748b",
-                  background: "#f8fafc",
-                  padding: "1rem",
-                  borderRadius: "12px",
+                  flexDirection: "column",
+                  background: "#fff"
                 }}
               >
+                <h2
+                  style={{
+                    fontSize: "1.8rem",
+                    fontWeight: 900,
+                    color: "#1e293b",
+                    marginBottom: "1rem",
+                    lineHeight: 1.2
+                  }}
+                >
+                  {publicacionModal.publicaciones_titulo}
+                </h2>
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
+                    gap: "1rem",
+                    flexWrap: "wrap",
+                    marginBottom: "1.5rem",
+                    fontSize: "0.95rem",
+                    color: "#64748b",
+                    background: "#f8fafc",
+                    padding: "1rem 1.5rem",
+                    borderRadius: "12px",
+                    borderLeft: `4px solid ${colors?.primary || '#3b82f6'}`
                   }}
                 >
-                  <FaCalendarAlt />{" "}
-                  {new Date(
-                    publicacionModal.publicaciones_fecha,
-                  ).toLocaleDateString()}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "bold" }}>
+                    <FaCalendarAlt style={{ color: colors?.primary }} />{" "}
+                    {new Date(publicacionModal.publicaciones_fecha).toLocaleDateString()}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <FaClock style={{ color: colors?.primary }} />{" "}
+                    {tiempoLectura(publicacionModal.publicaciones_descripcion || "")} min lectura
+                  </div>
+                  {publicacionModal.publicaciones_autor && (
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <FaUserEdit style={{ color: colors?.primary }} /> {publicacionModal.publicaciones_autor}
+                    </div>
+                  )}
                 </div>
+
                 <div
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(publicacionModal.publicaciones_descripcion) }}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
+                    lineHeight: 1.6,
+                    color: "#334155",
+                    marginBottom: "2rem",
+                    fontSize: "1.05rem"
                   }}
-                >
-                  <FaClock />{" "}
-                  {tiempoLectura(
-                    publicacionModal.publicaciones_descripcion || "",
-                  )}{" "}
-                  min lectura
-                </div>
-                {publicacionModal.publicaciones_autor && (
-                  <div
+                />
+
+                {publicacionModal.publicaciones_documento && (
+                  <a
+                    href={publicacionModal.publicaciones_documento}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
+                      marginTop: "auto",
                       display: "flex",
                       alignItems: "center",
+                      justifyContent: "center",
                       gap: "0.5rem",
+                      padding: "1rem",
+                      background: colors.secondary || '#10b981',
+                      color: "#fff",
+                      borderRadius: "12px",
+                      textDecoration: "none",
+                      fontWeight: 700,
+                      transition: "transform 0.2s",
                     }}
                   >
-                    <FaUserEdit /> {publicacionModal.publicaciones_autor}
-                  </div>
+                    <FaFilePdf size={18} /> Descargar Documento PDF
+                  </a>
                 )}
               </div>
-
-              <div
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(publicacionModal.publicaciones_descripcion,) }}
-                style={{
-                  lineHeight: 1.6,
-                  color: "#334155",
-                  marginBottom: "2rem",
-                }}
-              />
-
-              {publicacionModal.publicaciones_documento && (
-                <a
-                  href={publicacionModal.publicaciones_documento}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "0.5rem",
-                    padding: "1rem",
-                    background: colors.secondary,
-                    color: "#fff",
-                    borderRadius: "12px",
-                    textDecoration: "none",
-                    fontWeight: 700,
-                  }}
-                >
-                  <FaFilePdf size={18} /> Descargar Documento PDF
-                </a>
-              )}
             </motion.div>
           </div>
         )}

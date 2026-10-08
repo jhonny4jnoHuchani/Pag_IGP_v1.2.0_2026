@@ -176,7 +176,7 @@ export default function AvisosPage() {
                 author={aviso.autor}
                 linkUrl={aviso.enlace !== "#" ? aviso.enlace : undefined}
                 index={idx}
-                onImageClick={
+                onClick={
                   aviso.imagen
                     ? () => setImagenModal(getImageUrl(aviso.imagen))
                     : undefined
