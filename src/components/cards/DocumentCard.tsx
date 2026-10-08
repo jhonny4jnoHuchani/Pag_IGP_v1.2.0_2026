@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaFilePdf, FaDownload, FaEye, FaStar } from 'react-icons/fa';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/TextLayer.css';
