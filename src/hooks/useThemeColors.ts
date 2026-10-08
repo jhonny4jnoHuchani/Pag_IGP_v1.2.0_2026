@@ -5,7 +5,7 @@
 // institucionales que vienen de la API.
 // =============================================
 
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { InstitucionPrincipal } from '../lib/api';
 
 // Interface para los colores de la API
@@ -143,7 +143,7 @@ const getSafeColor = (
 export const useThemeColors = (
   institucion: InstitucionPrincipal | null
 ): ThemeColors => {
-  return useMemo(() => {
+  const colors = useMemo(() => {
     // Extraer colores de la API (si existen)
     const apiColors: ColorInstitucion = institucion?.colorinstitucion?.[0] || {} as ColorInstitucion;
     
@@ -203,6 +203,31 @@ export const useThemeColors = (
       textOnTertiary,
     };
   }, [institucion]);
+
+  // Aplicar las variables globalmente al DOM (:root)
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--primary', colors.primary);
+    root.style.setProperty('--secondary', colors.secondary);
+    root.style.setProperty('--tertiary', colors.tertiary);
+    
+    root.style.setProperty('--primary-light', colors.primaryLight);
+    root.style.setProperty('--primary-medium', colors.primaryMedium);
+    root.style.setProperty('--primary-dark', colors.primaryDark);
+    
+    root.style.setProperty('--secondary-light', colors.secondaryLight);
+    root.style.setProperty('--secondary-medium', colors.secondaryMedium);
+    root.style.setProperty('--secondary-dark', colors.secondaryDark);
+    
+    root.style.setProperty('--tertiary-light', colors.tertiaryLight);
+    root.style.setProperty('--tertiary-dark', colors.tertiaryDark);
+    
+    root.style.setProperty('--text-on-primary', colors.textOnPrimary);
+    root.style.setProperty('--text-on-secondary', colors.textOnSecondary);
+    root.style.setProperty('--text-on-tertiary', colors.textOnTertiary);
+  }, [colors]);
+
+  return colors;
 };
 
 // =============================================
