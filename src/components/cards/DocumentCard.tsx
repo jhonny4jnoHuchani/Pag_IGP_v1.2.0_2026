@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFilePdf, FaDownload, FaEye, FaStar } from 'react-icons/fa';
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/TextLayer.css';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface DocumentCardProps {
   title: string;
@@ -63,20 +58,22 @@ export default function DocumentCard({
           </div>
 
           {!pdfError && documentUrl && documentUrl.endsWith('.pdf') ? (
-            <div style={{ width: '100%', pointerEvents: 'none', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '1rem' }}>
-              <Document
-                file={documentUrl}
-                onLoadError={() => setPdfError(true)}
-                loading={<FaFilePdf size={40} color="#cbd5e1" />}
-              >
-                <Page 
-                  pageNumber={1} 
-                  width={350} 
-                  renderTextLayer={false} 
-                  renderAnnotationLayer={false}
-                  className="pdf-preview-page"
-                />
-              </Document>
+            <div style={{ width: '100%', height: '100%', pointerEvents: 'none', position: 'relative' }}>
+              <iframe
+                src={`${documentUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                title={title}
+                style={{
+                  width: '100%',
+                  height: '110%', /* 110% para esconder bordes extra del visor */
+                  border: 'none',
+                  pointerEvents: 'none', /* Deshabilita interacciones con el PDF */
+                  userSelect: 'none'
+                }}
+                sandbox="allow-same-origin allow-scripts"
+                scrolling="no"
+              />
+              {/* Capa invisible para atrapar los eventos del mouse y evitar que el usuario toque el PDF */}
+              <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: 'transparent' }} />
             </div>
           ) : (
             <FaFilePdf size={60} color="#cbd5e1" />
