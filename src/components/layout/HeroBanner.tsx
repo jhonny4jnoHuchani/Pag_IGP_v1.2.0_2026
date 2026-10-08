@@ -706,25 +706,31 @@ export default function HeroBanner({
       {/* PORTADAS FLOTANTES (FOTOS ORBITANDO EL CENTRO) */}
       <div style={{ position: "absolute", inset: 0, zIndex: 10, pointerEvents: "none" }}>
         {portadas.slice(0, 6).map((p, idx) => {
+          // Posiciones iniciales más dispersas y tamaños al doble
           const positions = [
-            { top: "10%", left: "5%", size: 150, delay: 0 },
-            { top: "65%", left: "2%", size: 120, delay: 1 },
-            { top: "15%", left: "85%", size: 160, delay: 0.5 },
-            { top: "70%", left: "82%", size: 130, delay: 1.5 },
-            { top: "40%", left: "90%", size: 100, delay: 2 },
-            { top: "45%", left: "-2%", size: 110, delay: 0.8 },
+            { top: "5%", left: "5%", size: 250, delay: 0 },
+            { top: "70%", left: "10%", size: 200, delay: 1.5 },
+            { top: "5%", left: "75%", size: 280, delay: 0.5 },
+            { top: "65%", left: "80%", size: 220, delay: 2 },
+            { top: "40%", left: "85%", size: 180, delay: 1 },
+            { top: "35%", left: "2%", size: 190, delay: 0.8 },
           ];
           const pos = positions[idx % positions.length];
+          
+          // Movimientos amplios para simular que chocan o se cruzan
+          const floatY = [0, -80, 50, -30, 0];
+          const floatX = [0, 60, -60, 30, 0];
+          
           return (
             <motion.div
               key={`float-${p.portada_id}`}
               animate={{
-                y: [0, -30, 0],
-                x: [0, 15, -15, 0],
-                rotate: [0, 10, -10, 0],
+                y: idx % 2 === 0 ? floatY : floatY.reverse(),
+                x: idx % 3 === 0 ? floatX : floatX.reverse(),
+                rotate: [0, 15, -15, 10, 0],
               }}
               transition={{
-                duration: 8 + idx,
+                duration: 15 + idx * 2,
                 repeat: Infinity,
                 ease: "easeInOut",
                 delay: pos.delay,
@@ -786,22 +792,22 @@ export default function HeroBanner({
                     <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center" }}>
             
             {/* BATALLA DE COLORES DETRÁS DEL LOGO */}
-            <div style={{ position: "relative", width: "200px", height: "200px", margin: "0 auto 2rem" }}>
+            <div style={{ position: "relative", width: "400px", height: "400px", margin: "0 auto 2rem" }}>
               {/* AURORA DE COLORES (BATALLA SUTIL) */}
               <motion.div
                 animate={{ scale: [1, 1.5, 1], x: [0, 20, -15, 0], y: [0, -20, 15, 0], rotate: [0, 90, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", top: "0%", left: "0%", width: "100%", height: "100%", background: "var(--primary)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.6 }}
+                style={{ position: "absolute", top: "0%", left: "0%", width: "100%", height: "100%", background: "var(--primary)", filter: "blur(50px)", borderRadius: "50%", zIndex: 0, opacity: 0.6 }}
               />
               <motion.div
                 animate={{ scale: [1.2, 0.8, 1.2], x: [0, -20, 20, 0], y: [0, 20, -15, 0], rotate: [0, -90, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", top: "0%", right: "0%", width: "100%", height: "100%", background: "var(--secondary)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
+                style={{ position: "absolute", top: "0%", right: "0%", width: "100%", height: "100%", background: "var(--secondary)", filter: "blur(50px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
               />
               <motion.div
                 animate={{ scale: [0.8, 1.3, 0.8], x: [0, 15, -20, 0], y: [0, 15, -20, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                style={{ position: "absolute", bottom: "0%", left: "10%", width: "100%", height: "100%", background: colors.tertiary || "var(--primary-light)", filter: "blur(40px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
+                style={{ position: "absolute", bottom: "0%", left: "10%", width: "100%", height: "100%", background: colors.tertiary || "var(--primary-light)", filter: "blur(50px)", borderRadius: "50%", zIndex: 0, opacity: 0.5 }}
               />
               
               {logo ? (
@@ -813,8 +819,8 @@ export default function HeroBanner({
                   transition={{ duration: 1.5, type: "spring", bounce: 0.5 }}
                   style={{
                     position: "absolute", inset: 0, margin: "auto",
-                    width: "150px", height: "150px", objectFit: "contain",
-                    filter: `drop-shadow(0 15px 25px rgba(0,0,0,0.5))`,
+                    width: "300px", height: "300px", objectFit: "contain",
+                    filter: `drop-shadow(0 20px 35px rgba(0,0,0,0.6))`,
                     zIndex: 1
                   }}
                 />

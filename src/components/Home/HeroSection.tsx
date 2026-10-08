@@ -102,22 +102,22 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
         /* Animación de Dibujado SVG */
         .svg-title-anim {
           font-family: "Inter", system-ui, sans-serif;
-          font-size: 75px;
+          font-size: 220px;
           font-weight: 900;
           text-transform: uppercase;
           fill: transparent;
           stroke: #FFD700;
-          stroke-width: 2px;
-          stroke-dasharray: 600;
-          stroke-dashoffset: 600;
+          stroke-width: 4px;
+          stroke-dasharray: 2000;
+          stroke-dashoffset: 2000;
           animation: drawText 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-          filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-          letter-spacing: 2px;
+          filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+          letter-spacing: 5px;
         }
 
         @keyframes drawText {
           0% {
-            stroke-dashoffset: 600;
+            stroke-dashoffset: 2000;
             fill: transparent;
           }
           60% {
@@ -186,12 +186,12 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
             {tituloCompleto}
           </h1>
 
-          <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto 1.5rem' }}>
-            <svg viewBox="0 0 1000 220" width="100%" height="100%" style={{ overflow: 'visible' }}>
-              <text x="50%" y="35%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
+          <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto 1.5rem' }}>
+            <svg viewBox="0 0 2800 650" width="100%" height="100%" style={{ overflow: 'visible' }}>
+              <text x="50%" y="38%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
                 {linea1}
               </text>
-              <text x="50%" y="85%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim" style={{ animationDelay: '0.3s' }}>
+              <text x="50%" y="88%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim" style={{ animationDelay: '0.3s' }}>
                 {linea2}
               </text>
             </svg>
