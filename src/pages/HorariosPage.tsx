@@ -4,49 +4,35 @@ import { useCarreraData } from "../lib/api";
 import { useThemeColors } from "../hooks/useThemeColors";
 import MainLayout from "../components/layout/MainLayout";
 import HeroBanner from "../components/layout/HeroBanner";
-import MasonryGrid from "../components/grids/MasonryGrid";
-import ImageCard from "../components/cards/ImageCard";
-import { FaTimes, FaCalendarAlt } from "react-icons/fa";
+import StandardGrid from "../components/grids/StandardGrid";
+import DocumentCard from "../components/cards/DocumentCard";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export default function HorariosPage() {
   const { institucion, recursos, loading, contenido } = useCarreraData();
   const colors = useThemeColors(institucion);
   const [filtroActivo, setFiltroActivo] = useState("TODOS");
-  const [imagenModal, setImagenModal] = useState<string | null>(null);
 
-  const getImageUrl = (path: string | null | undefined): string => {
+  const getPdfUrl = (path: string | null | undefined): string => {
     if (!path) return "";
     if (path.startsWith("http")) return path;
-    return `https://archivosminio.upea.bo/archivospaginasnode/imagenes/${path}`;
+    return `https://archivosminio.upea.bo/archivospaginasnode/documentos/gacetas/${path}`;
   };
 
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setImagenModal(null);
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
-
-  // Actualmente, como mencionaste, los Horarios podrían venir de "upea_publicaciones", "ofertasAcademicas" o "convocatorias".
-  // Por el momento, usamos upea_publicaciones con tipo HORARIO como un posible origen, hasta que se defina con precisión.
   const horariosItems = useMemo(() => {
-    const list = recursos?.upea_publicaciones || [];
+    const list = recursos?.upea_gaceta_universitaria || [];
     return list
-      .filter((pub) => {
-        const titulo = pub.publicaciones_titulo?.toUpperCase() || "";
-        const tipo = pub.publicaciones_tipo?.toUpperCase() || "";
-        return titulo.includes("HORARIO") || tipo.includes("HORARIO");
+      .filter((gac) => {
+        const tipo = gac.gaceta_tipo?.toUpperCase() || "";
+        const titulo = gac.gaceta_titulo?.toUpperCase() || "";
+        return tipo.includes("HORARIO") || titulo.includes("HORARIO");
       })
-      .map((pub) => ({
-        id: pub.publicaciones_id,
-        titulo: pub.publicaciones_titulo,
-        descripcion: pub.publicaciones_descripcion,
-        fecha: pub.publicaciones_fecha,
-        imagen: pub.publicaciones_imagen,
-        tipo: pub.publicaciones_tipo || "HORARIO",
-        autor: pub.publicaciones_autor,
-        enlace: pub.publicaciones_documento || "#",
+      .map((gac) => ({
+        id: gac.gaceta_id,
+        titulo: gac.gaceta_titulo,
+        fecha: gac.gaceta_fecha,
+        enlace: gac.gaceta_documento,
+        tipo: gac.gaceta_tipo || "HORARIO",
       }))
       .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
   }, [recursos]);
@@ -142,31 +128,23 @@ export default function HorariosPage() {
                 ))}
               </div>
 
-              <MasonryGrid
+              <StandardGrid
                 isEmpty={itemsFiltrados.length === 0}
                 emptyMessage="No hay horarios disponibles en esta categoría."
                 colors={colors}
               >
-                {itemsFiltrados.map((aviso, idx) => (
-                  <ImageCard
-                    key={aviso.id}
-                    title={aviso.titulo}
-                    description={aviso.descripcion}
-                    imageUrl={aviso.imagen ? getImageUrl(aviso.imagen) : null}
-                    dateStr={aviso.fecha}
-                    tag={aviso.tipo}
+                {itemsFiltrados.map((horario, idx) => (
+                  <DocumentCard
+                    key={horario.id}
+                    title={horario.titulo}
+                    dateStr={horario.fecha}
+                    documentUrl={getPdfUrl(horario.enlace)}
+                    tag={horario.tipo}
                     colors={colors}
-                    author={aviso.autor}
-                    linkUrl={aviso.enlace !== "#" ? aviso.enlace : undefined}
                     index={idx}
-                    onImageClick={
-                      aviso.imagen
-                        ? () => setImagenModal(getImageUrl(aviso.imagen))
-                        : undefined
-                    }
                   />
                 ))}
-              </MasonryGrid>
+              </StandardGrid>
             </>
           ) : (
             <div style={{ textAlign: "center", padding: "4rem 2rem" }}>
@@ -179,72 +157,6 @@ export default function HorariosPage() {
           )}
         </div>
       </section>
-
-      {/* Modal de Imagen */}
-      <AnimatePresence>
-        {imagenModal && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.95)",
-              zIndex: 9999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1rem",
-              cursor: "zoom-out",
-            }}
-            onClick={() => setImagenModal(null)}
-          >
-            <button
-              onClick={() => setImagenModal(null)}
-              style={{
-                position: "absolute",
-                top: "1rem",
-                right: "1rem",
-                width: "45px",
-                height: "45px",
-                borderRadius: "50%",
-                background: "rgba(255,255,255,0.15)",
-                border: "none",
-                color: "#fff",
-                fontSize: "1.2rem",
-                cursor: "pointer",
-                zIndex: 10000,
-              }}
-            >
-              <FaTimes />
-            </button>
-            <motion.div
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              style={{
-                width: "100%",
-                height: "100%",
-                maxWidth: '1200px', position: 'relative', zIndex: 2,
-                maxHeight: "85vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                src={imagenModal}
-                alt="Vista ampliada"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  borderRadius: "12px",
-                }}
-                onClick={(e) => e.stopPropagation()}
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </MainLayout>
   );
 }

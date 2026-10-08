@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaFilePdf, FaDownload, FaEye } from 'react-icons/fa';
+import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+
+// Configurar el worker de PDF.js
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface DocumentCardProps {
   title: string;
@@ -15,11 +21,22 @@ export default function DocumentCard({
   title, documentUrl, dateStr, tag = 'DOCUMENTO', colors, index = 0
 }: DocumentCardProps) {
   const [hovered, setHovered] = useState(false);
+  const [numPages, setNumPages] = useState<number>();
+  const [pdfError, setPdfError] = useState(false);
 
   let formattedDate = '';
   if (dateStr) {
     const d = new Date(dateStr);
     if (!isNaN(d.getTime())) formattedDate = d.toLocaleDateString('es-BO', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    setNumPages(numPages);
+    setPdfError(false);
+  }
+
+  function onDocumentLoadError() {
+    setPdfError(true);
   }
 
   return (
@@ -47,8 +64,31 @@ export default function DocumentCard({
           transition: 'all 0.3s ease'
         }}
       >
-        <div style={{ flexShrink: 0, width: '60px', height: '60px', borderRadius: '12px', background: `${colors?.secondary || '#dc2626'}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <FaFilePdf size={28} color={colors?.secondary || '#dc2626'} />
+        <div style={{ 
+          flexShrink: 0, width: '70px', height: '90px', borderRadius: '8px', 
+          background: `${colors?.secondary || '#dc2626'}15`, display: 'flex', 
+          alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)', border: '1px solid #e2e8f0'
+        }}>
+          {!pdfError && documentUrl && documentUrl.endsWith('.pdf') ? (
+            <div style={{ width: '100%', height: '100%', pointerEvents: 'none' }}>
+              <Document
+                file={documentUrl}
+                onLoadSuccess={onDocumentLoadSuccess}
+                onLoadError={onDocumentLoadError}
+                loading={<FaFilePdf size={24} color={colors?.secondary || '#dc2626'} style={{ margin: 'auto', marginTop: '30px', display: 'block' }} />}
+              >
+                <Page 
+                  pageNumber={1} 
+                  width={70} 
+                  renderTextLayer={false} 
+                  renderAnnotationLayer={false} 
+                />
+              </Document>
+            </div>
+          ) : (
+            <FaFilePdf size={28} color={colors?.secondary || '#dc2626'} />
+          )}
         </div>
 
         <div style={{ flex: 1 }}>

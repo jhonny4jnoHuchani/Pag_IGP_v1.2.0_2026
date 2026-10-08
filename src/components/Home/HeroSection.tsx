@@ -102,22 +102,22 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
         /* Animación de Dibujado SVG */
         .svg-title-anim {
           font-family: "Inter", system-ui, sans-serif;
-          font-size: 220px;
+          font-size: 140px;
           font-weight: 900;
           text-transform: uppercase;
           fill: transparent;
           stroke: #FFD700;
-          stroke-width: 4px;
-          stroke-dasharray: 2000;
-          stroke-dashoffset: 2000;
+          stroke-width: 3px;
+          stroke-dasharray: 1500;
+          stroke-dashoffset: 1500;
           animation: drawText 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-          filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
-          letter-spacing: 5px;
+          filter: drop-shadow(0 6px 15px rgba(0,0,0,0.6));
+          letter-spacing: 4px;
         }
 
         @keyframes drawText {
           0% {
-            stroke-dashoffset: 2000;
+            stroke-dashoffset: 1500;
             fill: transparent;
           }
           60% {
@@ -170,9 +170,9 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
           <div
             className="logo-pulse"
             style={{
-              width: 'clamp(120px, 28vw, 200px)', height: 'clamp(120px, 28vw, 200px)', margin: '0 auto 1.5rem', background: '#fff', borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
-              border: `5px solid ${colors.primary}`, animation: 'pulse 2s ease-in-out infinite', overflow: 'hidden',
+              width: 'clamp(200px, 40vw, 350px)', height: 'clamp(200px, 40vw, 350px)', margin: '0 auto 1.5rem', background: '#fff', borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+              border: `6px solid ${colors.primary}`, animation: 'pulse 2s ease-in-out infinite', overflow: 'hidden',
             }}
           >
             {institucion?.institucion_logo ? (
@@ -187,7 +187,7 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
           </h1>
 
           <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto 1.5rem' }}>
-            <svg viewBox="0 0 2800 650" width="100%" height="100%" style={{ overflow: 'visible' }}>
+            <svg viewBox="0 0 1500 450" width="100%" height="100%" style={{ overflow: 'visible' }}>
               <text x="50%" y="38%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
                 {linea1}
               </text>
