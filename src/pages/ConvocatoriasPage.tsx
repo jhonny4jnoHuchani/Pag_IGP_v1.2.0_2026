@@ -33,7 +33,7 @@ export default function ConvocatoriasPage() {
     return list
       .filter((item) => {
         const type = (item.tipo_conv_comun?.tipo_conv_comun_titulo || "").toUpperCase();
-        return type.includes("CONVOCATORIA") || type === "CONVOCATORIAS" || type === ""; 
+        return (type.includes("CONVOCATORIA") || type === "CONVOCATORIAS" || type === "") && item.con_estado === "1"; 
       })
       .map((item) => ({
         id: item.idconvocatorias,

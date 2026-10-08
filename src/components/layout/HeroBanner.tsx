@@ -148,99 +148,132 @@ export default function HeroBanner({
             width: "100%",
             maxWidth: "1400px",
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "2rem"
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            style={{
-              padding: "0.5rem 1.5rem",
-              background: "var(--primary)",
-              color: "#fff",
-              fontWeight: 800,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              fontSize: "0.85rem",
-              borderRadius: "50px",
-              marginBottom: "1.5rem",
-              display: "inline-flex",
-              boxShadow: "0 10px 20px var(--primary-medium)",
-            }}
-          >
-            Sello de Excelencia Académica
-          </motion.div>
-
-          <motion.h1
-            variants={letterContainer}
-            initial="hidden"
-            animate="visible"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              margin: "0 0 1rem",
-              fontSize: "clamp(3rem, 7vw, 6rem)",
-              fontWeight: 900,
-              color: "#fff",
-              textTransform: "uppercase",
-              lineHeight: 1.1,
-              textShadow: "0 10px 30px rgba(0,0,0,0.5)",
-            }}
-          >
-            {title.split(" ").map((word, wordIdx) => (
-              <span
-                key={wordIdx}
-                style={{
-                  display: "inline-flex",
-                  overflow: "hidden",
-                  marginRight: "1rem",
-                }}
-              >
-                {word.split("").map((char, charIdx) => (
-                  <motion.span
-                    key={charIdx}
-                    variants={letterAnim}
-                    style={{ display: "inline-block" }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </motion.h1>
-
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            style={{
-              width: "200px",
-              height: "8px",
-              background: "var(--secondary)",
-              transformOrigin: "left",
-              borderRadius: "4px",
-              marginBottom: "2rem",
-            }}
-          />
-
-          {description && (
-            <motion.p
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
+          {/* COLUMNA IZQUIERDA: Textos */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", flex: "1 1 60%", minWidth: "300px" }}>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
               style={{
-                color: "#e2e8f0",
-                fontSize: "clamp(1.1rem, 2vw, 1.3rem)",
-                maxWidth: "600px",
-                lineHeight: 1.6,
-                borderLeft: "4px solid var(--primary)",
-                paddingLeft: "1rem",
+                padding: "0.5rem 1.5rem",
+                background: "var(--primary)",
+                color: "#fff",
+                fontWeight: 800,
+                letterSpacing: "3px",
+                textTransform: "uppercase",
+                fontSize: "0.85rem",
+                borderRadius: "50px",
+                marginBottom: "1.5rem",
+                display: "inline-flex",
+                boxShadow: "0 10px 20px var(--primary-medium)",
               }}
             >
-              {description}
-            </motion.p>
+              Sello de Excelencia Académica
+            </motion.div>
+
+            <motion.h1
+              variants={letterContainer}
+              initial="hidden"
+              animate="visible"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "0 0 1rem",
+                fontSize: "clamp(3rem, 7vw, 6rem)",
+                fontWeight: 900,
+                color: "#fff",
+                textTransform: "uppercase",
+                lineHeight: 1.1,
+                textShadow: "0 10px 30px rgba(0,0,0,0.5)",
+              }}
+            >
+              {title.split(" ").map((word, wordIdx) => (
+                <span
+                  key={wordIdx}
+                  style={{
+                    display: "inline-flex",
+                    overflow: "hidden",
+                    marginRight: "1rem",
+                  }}
+                >
+                  {word.split("").map((char, charIdx) => (
+                    <motion.span
+                      key={charIdx}
+                      variants={letterAnim}
+                      style={{ display: "inline-block" }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+              ))}
+            </motion.h1>
+
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 1, duration: 1 }}
+              style={{
+                width: "200px",
+                height: "8px",
+                background: "var(--secondary)",
+                transformOrigin: "left",
+                borderRadius: "4px",
+                marginBottom: "2rem",
+              }}
+            />
+
+            {description && (
+              <motion.p
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.2, duration: 0.8 }}
+                style={{
+                  color: "#e2e8f0",
+                  fontSize: "clamp(1.1rem, 2vw, 1.3rem)",
+                  maxWidth: "600px",
+                  lineHeight: 1.6,
+                  borderLeft: "4px solid var(--primary)",
+                  paddingLeft: "1rem",
+                  margin: 0
+                }}
+              >
+                {description}
+              </motion.p>
+            )}
+          </div>
+
+          {/* COLUMNA DERECHA: Logo */}
+          {logo && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, x: 50 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ delay: 1, duration: 1, type: "spring", bounce: 0.4 }}
+              style={{
+                flex: "0 0 auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <img
+                src={logo.startsWith("http") ? logo : `${logo}`}
+                alt="Logo Institución"
+                style={{
+                  width: "100%",
+                  maxWidth: "300px",
+                  maxHeight: "300px",
+                  objectFit: "contain",
+                  filter: `drop-shadow(0 20px 40px rgba(0,0,0,0.6)) drop-shadow(0 0 40px var(--primary-medium))`
+                }}
+              />
+            </motion.div>
           )}
         </div>
       </section>
