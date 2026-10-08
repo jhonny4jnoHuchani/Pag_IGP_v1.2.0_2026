@@ -14,14 +14,19 @@ import OfertasAcademicasPage from './pages/OfertasAcademicasPage';
 import PublicacionesPage from './pages/PublicacionesPage';
 import EventosPage from './pages/EventosPage';
 import VideosPage from './pages/VideosPage';
-// ✅ NUEVOS IMPORTS
 import PlanEstudiosPage from './pages/PlanEstudiosPage';
 import MallaCurricularPage from './pages/MallaCurricularPage';
+import ConvocatoriasPage from './pages/ConvocatoriasPage';
+import HorariosPage from './pages/HorariosPage';
 
 import './index.css';
 import MisionPage from './pages/MisionPage';
+import { useInteractiveEffects } from './hooks/useInteractiveEffects';
 
 function Router() {
+  // Activar efectos visuales interactivos globalmente
+  useInteractiveEffects();
+
   const [route, setRoute] = React.useState(() => 
     window.location.hash.replace('#', '') || 'home'
   );
@@ -74,6 +79,10 @@ function Router() {
       return <PlanEstudiosPage />;
     case 'malla-curricular':
       return <MallaCurricularPage />;
+    case 'convocatorias':
+      return <ConvocatoriasPage />;
+    case 'horarios':
+      return <HorariosPage />;
   
     default:
       return <App />;

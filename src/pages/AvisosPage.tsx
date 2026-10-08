@@ -33,11 +33,7 @@ export default function AvisosPage() {
         const tipo = pub.publicaciones_tipo?.toUpperCase() || "";
         return (
           titulo.includes("AVISO") ||
-          titulo.includes("COMUNICADO") ||
-          tipo.includes("AVISO") ||
-          tipo.includes("COMUNICADO") ||
-          tipo.includes("GACETA") ||
-          titulo.includes("GACETA")
+          tipo.includes("AVISO")
         );
       })
       .map((pub) => ({

@@ -25,9 +25,6 @@ function App() {
   // 2. Obtener los colores dinámicos de la institución
   const colors = useThemeColors(institucion);
 
-  // 3. Activar efectos visuales interactivos (chispas, quemaduras)
-  useInteractiveEffects();
-
   const [minLoadingTime, setMinLoadingTime] = useState(false);
 
   // Tiempo mínimo del loading screen (2 segundos)

@@ -53,6 +53,12 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
       ? institucion.institucion_celular1
       : null;
 
+  const tituloCompleto = institucion?.institucion_nombre || 'INGENIERÍA DE GAS Y PETROQUÍMICA';
+  const palabras = tituloCompleto.split(' ');
+  const mitad = Math.ceil(palabras.length / 2);
+  const linea1 = palabras.slice(0, mitad).join(' ');
+  const linea2 = palabras.slice(mitad).join(' ');
+
   return (
     <section
       id="inicio"
@@ -90,6 +96,37 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
           .floating-social a {
             width: 46px !important;
             height: 46px !important;
+          }
+        }
+
+        /* Animación de Dibujado SVG */
+        .svg-title-anim {
+          font-family: "Inter", system-ui, sans-serif;
+          font-size: 75px;
+          font-weight: 900;
+          text-transform: uppercase;
+          fill: transparent;
+          stroke: #FFD700;
+          stroke-width: 2px;
+          stroke-dasharray: 600;
+          stroke-dashoffset: 600;
+          animation: drawText 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+          letter-spacing: 2px;
+        }
+
+        @keyframes drawText {
+          0% {
+            stroke-dashoffset: 600;
+            fill: transparent;
+          }
+          60% {
+            stroke-dashoffset: 0;
+            fill: transparent;
+          }
+          100% {
+            stroke-dashoffset: 0;
+            fill: #FFD700;
           }
         }
       `}</style>
@@ -145,24 +182,20 @@ const HeroSection = ({ institucion, portadas, colors }: HeroSectionProps) => {
             )}
           </div>
 
-          <h1
-            style={{
-              fontSize: 'clamp(1.8rem, 6vw, 3.5rem)', fontWeight: 900, color: '#FFD700', margin: '0 0 1rem',
-              textShadow: '3px 3px 6px rgba(0,0,0,0.7)', letterSpacing: '2px', lineHeight: 1.2,
-              textTransform: 'uppercase', minHeight: '1.2em',
-            }}
-          >
-            <TypeAnimation
-              sequence={[
-                institucion?.institucion_nombre || 'INGENIERÍA DE GAS Y PETROQUÍMICA',
-                800,
-              ]}
-              wrapper="span"
-              speed={55}
-              cursor={true}
-              repeat={0}
-            />
+          <h1 style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+            {tituloCompleto}
           </h1>
+
+          <div style={{ width: '100%', maxWidth: '1000px', margin: '0 auto 1.5rem' }}>
+            <svg viewBox="0 0 1000 220" width="100%" height="100%" style={{ overflow: 'visible' }}>
+              <text x="50%" y="35%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim">
+                {linea1}
+              </text>
+              <text x="50%" y="85%" dominantBaseline="middle" textAnchor="middle" className="svg-title-anim" style={{ animationDelay: '0.3s' }}>
+                {linea2}
+              </text>
+            </svg>
+          </div>
 
           {/* Botones del slider */}
           {portadas && portadas.length > 1 && (
